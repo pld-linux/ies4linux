@@ -1,0 +1,34 @@
+--- ies4linux-2.0beta6/ies4linux	2006-05-27 12:19:55.000000000 +0300
++++ ies4linux-2.0beta6.patched/ies4linux	2006-05-28 23:48:51.953989071 +0300
+@@ -22,7 +22,7 @@
+ INSTALLIE55=0
+ INSTALLIE5=0
+ INSTALLFLASH=1
+-CREATE_ICON=1
++CREATE_ICON=0
+ BASEDIR="$HOME/.ies4linux"
+ DOWNLOADDIR="$BASEDIR/downloads"
+ BINDIR="$HOME/bin"
+@@ -59,10 +59,9 @@
+ [ "$(whoami)" = "root" ] && warning $MSG_WARNING_ROOT
+ 
+ # Asks what user wants to install
+-initAndConfigure
++#initAndConfigure
+ 
+ # Prepare folders
+-DOWNLOADDIR="$BASEDIR/downloads"
+ mkdir -p "$BINDIR"
+ mkdir -p "$BASEDIR/tmp/"
+ rm -rf "$BASEDIR"/tmp/*
+--- ies4linux-2.0beta6/lib/functions.sh	2006-05-27 12:20:21.000000000 +0300
++++ ies4linux-2.0beta6.patched/lib/functions.sh	2006-05-28 23:48:29.853495632 +0300
+@@ -12,7 +12,7 @@
+                                 Exec "$BINDIR/$1" \
+                                 Icon "$BASEDIR/ies4linux.svg" \
+                                 Name "Internet Explorer $2" \
+-                                GenericName "Microsoft Windows Aplication" \
++                                GenericName "Microsoft Windows Application" \
+                                 Comment "MSIE $2 by IEs4Linux" > IE$2.desktop
+                 fi
+         fi
