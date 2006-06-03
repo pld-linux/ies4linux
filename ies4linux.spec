@@ -17,6 +17,7 @@
 # - needs $DISPLAY and wine to package!
 
 Summary:	Run IE 6, 5.5 and 5 on Linux with Wine
+Summary(pl):	Uruchamianie IE 6, 5.5 i 5 pod Linuksem przy u¿yciu Wine
 Name:		ies4linux
 Version:	2.0
 Release:	0.%{_beta}.%{_rel}
@@ -36,6 +37,10 @@ BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 %description
 IEs4Linux is the simpler way to have Microsoft Internet Explorer
 running on Linux.
+
+%description -l pl
+IEs4Linux to prostszy sposób na uruchamianie Microsoft Internet
+Explorera pod Linuksem.
 
 %prep
 %setup -q -n %{name}-%{version}%{_beta}
