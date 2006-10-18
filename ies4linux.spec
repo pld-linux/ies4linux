@@ -5,29 +5,32 @@
 # of Internet Explorer itself. Satisfying the terms of Internet Explorer's
 # license remains the user's responsibility.
 
-%define	_wine_cdrive	%{_datadir}/wine
-%define	_wine_system	%{_wine_cdrive}/windows/system
-%define	_wine_programs	%{_wine_cdrive}/'Program Files'
-%define	_installdir	%{_wine_programs}/'Internet Explorer'
+%define	_installdir	%{_datadir}/ies4linux
 
-%define	_beta	beta6
-%define	_rel	0.1
-
-# NOTE
-# - needs $DISPLAY and wine to package!
+# TODOs:
+#	- *.desktop files for each ie
+#	- sources downloaded via install script as NoSourceXX
+#	- move profiles to $HOME directory
 
 Summary:	Run IE 6, 5.5 and 5 on Linux with Wine
 Summary(pl):	Uruchamianie IE 6, 5.5 i 5 pod Linuksem przy u¿yciu Wine
 Name:		ies4linux
 Version:	2.0
-Release:	0.%{_beta}.%{_rel}
+Release:	0.1
 License:	GPL v2
 Group:		X11/Applications/Networking
-Source0:	http://www.tatanka.com.br/ies4linux/downloads/%{name}-%{version}%{_beta}.tar.gz
-# Source0-md5:	f96f3826dc041b0cdee9a87227db6a75
+Source0:	http://www.tatanka.com.br/ies4linux/downloads/%{name}-%{version}.tar.gz
+# Source0-md5:	c790d47e8aef5267037b1df5250352f8
+Source1:	%{name}.ie.sh
+Patch0:		%{name}-destdir.patch
 URL:		http://www.tatanka.com.br/ies4linux/index-en.html
 BuildRequires:	cabextract
 BuildRequires:	wine
+Requires(postun):	/usr/sbin/groupdel
+Requires(postun):	/usr/sbin/userdel
+Requires(pre):	/bin/id
+Requires(pre):	/usr/sbin/groupadd
+Requires(pre):	/usr/sbin/useradd
 #Requires:	dcom98
 Requires:	wine
 #Requires:	wine-programs
@@ -43,22 +46,309 @@ IEs4Linux to prostszy sposób na uruchamianie Microsoft Internet
 Explorera pod Linuksem.
 
 %prep
-%setup -q -n %{name}-%{version}%{_beta}
+%setup -q
+%patch0 -p1
+
+%package ie5
+Summary:	Internet Explorer 5
+Summary(pl):	Internet Explorer 5
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie5
+Internet Explorer 5.
+
+%description ie5 -l pl
+Internet Explorer 5.
+
+%package ie55
+Summary:	Internet Explorer 5.5
+Summary(pl):	Internet Explorer 5.5
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie55
+Internet Explorer 5.5.
+
+%description ie55 -l pl
+Internet Explorer 5.5.
+
+%package ie6
+Summary:	Internet Explorer 6
+Summary(pl):	Internet Explorer 6
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6
+Internet Explorer 6.
+
+%description ie6 -l pl
+Internet Explorer 6.
+
+%build
+exit 0
 
 %install
 rm -rf $RPM_BUILD_ROOT
 
 bash ./ies4linux \
-	--install-ie6 \
 	--install-ie55 \
 	--install-ie5 \
-	--basedir $RPM_BUILD_ROOT%{_installdir} \
-	--bindir $RPM_BUILD_ROOT%{_bindir} \
+	--basedir %{_installdir} \
+	--bindir %{_bindir} \
+	--destdir $RPM_BUILD_ROOT \
 	--downloaddir %{_sourcedir} \
+	--locale EN-US \
+	--install-flash << EOF
+n
+n
+EOF
+
+rm -rf $RPM_BUILD_ROOT%{_installdir}/{ie5,ie55,ie6}/drive_c/windows/profiles/%(id -u -n)
+rm $RPM_BUILD_ROOT%{_installdir}/ie{5,55,6}/.firstrun
+
+rm $RPM_BUILD_ROOT%{_bindir}/ie*
+cp %{SOURCE1} $RPM_BUILD_ROOT%{_bindir}/ie5
+cp %{SOURCE1} $RPM_BUILD_ROOT%{_bindir}/ie55
+cp %{SOURCE1} $RPM_BUILD_ROOT%{_bindir}/ie6
 
 %clean
 rm -rf $RPM_BUILD_ROOT
 
+%pre
+%groupadd -g 212 -r -f ies4linux
+
+%post
+%banner -e %{name} <<EOF
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+* Remember to add users which will use IEs to ies4linux group or  *
+* they won't be able to create they profiles and runing IEs fail. *
+* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+EOF
+
+%postun
+if [ "$1" = "0" ]; then
+	%groupremove ies4linux
+fi
+
 %files
 %defattr(644,root,root,755)
 %doc README
+%dir %{_installdir}
+%{_installdir}/%{name}.svg
+
+%files ie5
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/ie5
+%{_installdir}/ie5/*.reg
+%dir %{_installdir}/ie5
+%dir %{_installdir}/ie5/dosdevices
+%{_installdir}/ie5/dosdevices/*:
+%dir %{_installdir}/ie5/drive_c
+%dir "%{_installdir}/ie5/drive_c/Program Files"
+%dir "%{_installdir}/ie5/drive_c/Program Files/Common Files"
+%dir "%{_installdir}/ie5/drive_c/Program Files/Internet Explorer"
+"%{_installdir}/ie5/drive_c/Program Files/Internet Explorer/iexplore.exe"
+%dir %{_installdir}/ie5/drive_c/windows
+%attr(755,root,root) %{_installdir}/ie5/drive_c/windows/*.exe
+%{_installdir}/ie5/drive_c/windows/*.ini
+%dir %{_installdir}/ie5/drive_c/windows/command
+%attr(755,root,root) %{_installdir}/ie5/drive_c/windows/command/start.exe
+%dir %{_installdir}/ie5/drive_c/windows/fonts
+%{_installdir}/ie5/drive_c/windows/fonts/*.ttf
+%dir %{_installdir}/ie5/drive_c/windows/help
+%{_installdir}/ie5/drive_c/windows/help/*.hlp
+%dir %{_installdir}/ie5/drive_c/windows/inf
+%{_installdir}/ie5/drive_c/windows/inf/*.inf
+%dir %{_installdir}/ie5/drive_c/windows/options
+%dir %{_installdir}/ie5/drive_c/windows/options/cabs
+%{_installdir}/ie5/drive_c/windows/options/cabs/*.dll
+%dir %attr(770,root,ies4linux) %{_installdir}/ie5/drive_c/windows/profiles
+%dir "%{_installdir}/ie5/drive_c/windows/profiles/All Users"
+%dir "%{_installdir}/ie5/drive_c/windows/profiles/All Users/Application Data"
+%dir "%{_installdir}/ie5/drive_c/windows/profiles/All Users/Desktop"
+%dir "%{_installdir}/ie5/drive_c/windows/profiles/All Users/Documents"
+%dir "%{_installdir}/ie5/drive_c/windows/profiles/All Users/Favorites"
+%dir "%{_installdir}/ie5/drive_c/windows/profiles/All Users/Start Menu"
+%dir "%{_installdir}/ie5/drive_c/windows/profiles/All Users/Start Menu/Programs"
+%dir "%{_installdir}/ie5/drive_c/windows/profiles/All Users/Start Menu/Programs/StartUp"
+%dir "%{_installdir}/ie5/drive_c/windows/profiles/All Users/Templates"
+%{_installdir}/ie5/drive_c/windows/system
+%dir %{_installdir}/ie5/drive_c/windows/system32
+%dir %{_installdir}/ie5/drive_c/windows/system32/Macromed
+%dir %{_installdir}/ie5/drive_c/windows/system32/Macromed/Flash
+%{_installdir}/ie5/drive_c/windows/system32/Macromed/Flash/*.ocx
+%attr(755,root,root) %{_installdir}/ie5/drive_c/windows/system32/Macromed/Flash/*.exe
+%dir %{_installdir}/ie5/drive_c/windows/system32/drivers
+%dir %{_installdir}/ie5/drive_c/windows/system32/sfp
+%dir %{_installdir}/ie5/drive_c/windows/system32/sfp/ie
+%{_installdir}/ie5/drive_c/windows/system32/sfp/ie/vgx.cat
+%attr(755,root,root) %{_installdir}/ie5/drive_c/windows/system32/*.exe
+%{_installdir}/ie5/drive_c/windows/system32/*.dll
+%{_installdir}/ie5/drive_c/windows/system32/*.ocx
+%{_installdir}/ie5/drive_c/windows/system32/*.cat
+%{_installdir}/ie5/drive_c/windows/system32/*.msc
+%{_installdir}/ie5/drive_c/windows/system32/*.nls
+%{_installdir}/ie5/drive_c/windows/system32/*.inf
+%{_installdir}/ie5/drive_c/windows/system32/*.vxd
+%{_installdir}/ie5/drive_c/windows/system32/*.txt
+%{_installdir}/ie5/drive_c/windows/system32/*.cnv
+%{_installdir}/ie5/drive_c/windows/system32/*.mof
+%{_installdir}/ie5/drive_c/windows/system32/*.htm
+%{_installdir}/ie5/drive_c/windows/system32/*.acm
+%{_installdir}/ie5/drive_c/windows/system32/*.cpl
+%{_installdir}/ie5/drive_c/windows/system32/*.gif
+%{_installdir}/ie5/drive_c/windows/system32/*.tlb
+%{_installdir}/ie5/drive_c/windows/system32/*.stf
+%{_installdir}/ie5/drive_c/windows/system32/*.bat
+%{_installdir}/ie5/drive_c/windows/system32/*.pdr
+%{_installdir}/ie5/drive_c/windows/system32/*.rat
+%{_installdir}/ie5/drive_c/windows/system32/*.icm
+%{_installdir}/ie5/drive_c/windows/system32/*.wav
+%{_installdir}/ie5/drive_c/windows/system32/*.crl
+%{_installdir}/ie5/drive_c/windows/system32/*.drv
+%dir %{_installdir}/ie5/drive_c/windows/temp
+
+%files ie55
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/ie55
+%{_installdir}/ie55/*.reg
+%dir %{_installdir}/ie55
+%dir %{_installdir}/ie55/dosdevices
+%{_installdir}/ie55/dosdevices/*:
+%dir %{_installdir}/ie55/drive_c
+%dir "%{_installdir}/ie55/drive_c/Program Files"
+%dir "%{_installdir}/ie55/drive_c/Program Files/Common Files"
+%dir "%{_installdir}/ie55/drive_c/Program Files/Internet Explorer"
+"%{_installdir}/ie55/drive_c/Program Files/Internet Explorer/iexplore.exe"
+%dir %{_installdir}/ie55/drive_c/windows
+%attr(755,root,root) %{_installdir}/ie55/drive_c/windows/*.exe
+%{_installdir}/ie55/drive_c/windows/*.ini
+%dir %{_installdir}/ie55/drive_c/windows/command
+%attr(755,root,root) %{_installdir}/ie55/drive_c/windows/command/start.exe
+%dir %{_installdir}/ie55/drive_c/windows/fonts
+%{_installdir}/ie55/drive_c/windows/fonts/*.ttf
+%dir %{_installdir}/ie55/drive_c/windows/help
+%{_installdir}/ie55/drive_c/windows/help/*.hlp
+%dir %{_installdir}/ie55/drive_c/windows/inf
+%{_installdir}/ie55/drive_c/windows/inf/*.inf
+%dir %{_installdir}/ie55/drive_c/windows/options
+%dir %{_installdir}/ie55/drive_c/windows/options/cabs
+%{_installdir}/ie55/drive_c/windows/options/cabs/*.dll
+%dir %attr(770,root,ies4linux) %{_installdir}/ie55/drive_c/windows/profiles
+%dir "%{_installdir}/ie55/drive_c/windows/profiles/All Users"
+%dir "%{_installdir}/ie55/drive_c/windows/profiles/All Users/Application Data"
+%dir "%{_installdir}/ie55/drive_c/windows/profiles/All Users/Desktop"
+%dir "%{_installdir}/ie55/drive_c/windows/profiles/All Users/Documents"
+%dir "%{_installdir}/ie55/drive_c/windows/profiles/All Users/Favorites"
+%dir "%{_installdir}/ie55/drive_c/windows/profiles/All Users/Start Menu"
+%dir "%{_installdir}/ie55/drive_c/windows/profiles/All Users/Start Menu/Programs"
+%dir "%{_installdir}/ie55/drive_c/windows/profiles/All Users/Start Menu/Programs/StartUp"
+%dir "%{_installdir}/ie55/drive_c/windows/profiles/All Users/Templates"
+%{_installdir}/ie55/drive_c/windows/system
+%dir %{_installdir}/ie55/drive_c/windows/system32
+%dir %{_installdir}/ie55/drive_c/windows/system32/Macromed
+%dir %{_installdir}/ie55/drive_c/windows/system32/Macromed/Flash
+%{_installdir}/ie55/drive_c/windows/system32/Macromed/Flash/*.ocx
+%attr(755,root,root) %{_installdir}/ie55/drive_c/windows/system32/Macromed/Flash/*.exe
+%dir %{_installdir}/ie55/drive_c/windows/system32/drivers
+%dir %{_installdir}/ie55/drive_c/windows/system32/sfp
+%dir %{_installdir}/ie55/drive_c/windows/system32/sfp/ie
+%{_installdir}/ie55/drive_c/windows/system32/sfp/ie/vgx.cat
+%attr(755,root,root) %{_installdir}/ie55/drive_c/windows/system32/*.exe
+%{_installdir}/ie55/drive_c/windows/system32/*.dll
+%{_installdir}/ie55/drive_c/windows/system32/*.ocx
+%{_installdir}/ie55/drive_c/windows/system32/*.cat
+%{_installdir}/ie55/drive_c/windows/system32/*.msc
+%{_installdir}/ie55/drive_c/windows/system32/*.nls
+%{_installdir}/ie55/drive_c/windows/system32/*.inf
+%{_installdir}/ie55/drive_c/windows/system32/*.vxd
+%{_installdir}/ie55/drive_c/windows/system32/*.txt
+%{_installdir}/ie55/drive_c/windows/system32/*.cnv
+%{_installdir}/ie55/drive_c/windows/system32/*.mof
+%{_installdir}/ie55/drive_c/windows/system32/*.htm
+%{_installdir}/ie55/drive_c/windows/system32/*.acm
+%{_installdir}/ie55/drive_c/windows/system32/*.cpl
+%{_installdir}/ie55/drive_c/windows/system32/*.gif
+%{_installdir}/ie55/drive_c/windows/system32/*.tlb
+%{_installdir}/ie55/drive_c/windows/system32/*.stf
+%{_installdir}/ie55/drive_c/windows/system32/*.bat
+%{_installdir}/ie55/drive_c/windows/system32/*.pdr
+%{_installdir}/ie55/drive_c/windows/system32/*.rat
+%{_installdir}/ie55/drive_c/windows/system32/*.icm
+%{_installdir}/ie55/drive_c/windows/system32/*.wav
+%{_installdir}/ie55/drive_c/windows/system32/*.crl
+%{_installdir}/ie55/drive_c/windows/system32/*.drv
+%dir %{_installdir}/ie55/drive_c/windows/temp
+
+%files ie6
+%defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/ie6
+%{_installdir}/ie6/*.reg
+%dir %{_installdir}/ie6
+%dir %{_installdir}/ie6/dosdevices
+%{_installdir}/ie6/dosdevices/*:
+%dir %{_installdir}/ie6/drive_c
+%dir "%{_installdir}/ie6/drive_c/Program Files"
+%dir "%{_installdir}/ie6/drive_c/Program Files/Common Files"
+%dir "%{_installdir}/ie6/drive_c/Program Files/Internet Explorer"
+"%{_installdir}/ie6/drive_c/Program Files/Internet Explorer/iexplore.exe"
+%dir %{_installdir}/ie6/drive_c/windows
+%attr(755,root,root) %{_installdir}/ie6/drive_c/windows/*.exe
+%{_installdir}/ie6/drive_c/windows/*.ini
+%dir %{_installdir}/ie6/drive_c/windows/command
+%attr(755,root,root) %{_installdir}/ie6/drive_c/windows/command/start.exe
+%dir %{_installdir}/ie6/drive_c/windows/fonts
+%{_installdir}/ie6/drive_c/windows/fonts/*.ttf
+%dir %{_installdir}/ie6/drive_c/windows/help
+%{_installdir}/ie6/drive_c/windows/help/*.hlp
+%dir %{_installdir}/ie6/drive_c/windows/inf
+%{_installdir}/ie6/drive_c/windows/inf/*.inf
+%dir %{_installdir}/ie6/drive_c/windows/options
+%dir %{_installdir}/ie6/drive_c/windows/options/cabs
+%{_installdir}/ie6/drive_c/windows/options/cabs/*.dll
+%dir %attr(770,root,ies4linux) %{_installdir}/ie6/drive_c/windows/profiles
+%dir "%{_installdir}/ie6/drive_c/windows/profiles/All Users"
+%dir "%{_installdir}/ie6/drive_c/windows/profiles/All Users/Application Data"
+%dir "%{_installdir}/ie6/drive_c/windows/profiles/All Users/Desktop"
+%dir "%{_installdir}/ie6/drive_c/windows/profiles/All Users/Documents"
+%dir "%{_installdir}/ie6/drive_c/windows/profiles/All Users/Favorites"
+%dir "%{_installdir}/ie6/drive_c/windows/profiles/All Users/Start Menu"
+%dir "%{_installdir}/ie6/drive_c/windows/profiles/All Users/Start Menu/Programs"
+%dir "%{_installdir}/ie6/drive_c/windows/profiles/All Users/Start Menu/Programs/StartUp"
+%dir "%{_installdir}/ie6/drive_c/windows/profiles/All Users/Templates"
+%{_installdir}/ie6/drive_c/windows/system
+%dir %{_installdir}/ie6/drive_c/windows/system32
+%dir %{_installdir}/ie6/drive_c/windows/system32/Macromed
+%dir %{_installdir}/ie6/drive_c/windows/system32/Macromed/Flash
+%{_installdir}/ie6/drive_c/windows/system32/Macromed/Flash/*.ocx
+%attr(755,root,root) %{_installdir}/ie6/drive_c/windows/system32/Macromed/Flash/*.exe
+%dir %{_installdir}/ie6/drive_c/windows/system32/drivers
+%dir %{_installdir}/ie6/drive_c/windows/system32/sfp
+%dir %{_installdir}/ie6/drive_c/windows/system32/sfp/ie
+%{_installdir}/ie6/drive_c/windows/system32/sfp/ie/vgx.cat
+%attr(755,root,root) %{_installdir}/ie6/drive_c/windows/system32/*.exe
+%{_installdir}/ie6/drive_c/windows/system32/*.dll
+%{_installdir}/ie6/drive_c/windows/system32/*.ocx
+%{_installdir}/ie6/drive_c/windows/system32/*.cat
+%{_installdir}/ie6/drive_c/windows/system32/*.msc
+%{_installdir}/ie6/drive_c/windows/system32/*.nls
+%{_installdir}/ie6/drive_c/windows/system32/*.inf
+%{_installdir}/ie6/drive_c/windows/system32/*.vxd
+%{_installdir}/ie6/drive_c/windows/system32/*.txt
+%{_installdir}/ie6/drive_c/windows/system32/*.cnv
+%{_installdir}/ie6/drive_c/windows/system32/*.mof
+%{_installdir}/ie6/drive_c/windows/system32/*.htm
+%{_installdir}/ie6/drive_c/windows/system32/*.acm
+%{_installdir}/ie6/drive_c/windows/system32/*.cpl
+%{_installdir}/ie6/drive_c/windows/system32/*.gif
+%{_installdir}/ie6/drive_c/windows/system32/*.tlb
+%{_installdir}/ie6/drive_c/windows/system32/*.stf
+%{_installdir}/ie6/drive_c/windows/system32/*.bat
+%{_installdir}/ie6/drive_c/windows/system32/*.pdr
+%{_installdir}/ie6/drive_c/windows/system32/*.rat
+%{_installdir}/ie6/drive_c/windows/system32/*.icm
+%{_installdir}/ie6/drive_c/windows/system32/*.wav
+%{_installdir}/ie6/drive_c/windows/system32/*.crl
+%{_installdir}/ie6/drive_c/windows/system32/*.drv
+%dir %{_installdir}/ie6/drive_c/windows/temp
