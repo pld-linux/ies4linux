@@ -1,0 +1,304 @@
+diff -Nur ies4linux-2.0.orig/ies4linux ies4linux-2.0.chng/ies4linux
+--- ies4linux-2.0.orig/ies4linux	2006-07-28 07:40:38.000000000 +0200
++++ ies4linux-2.0.chng/ies4linux	2006-10-18 20:33:20.000000000 +0200
+@@ -53,6 +53,7 @@
+       --no-install-icon)  CREATE_ICON=0;   shift ;;
+       --basedir)           BASEDIR=$2;     shift 2 ;;
+       --bindir)            BINDIR=$2;      shift 2 ;;
++      --destdir)	   DESTDIR=$2;	   shift 2 ;;
+       --downloaddir)	   DOWNLOADDIR=$2; shift 2 ;;
+       --wget-flags)        WGETFLAGS=$2;   shift 2 ;;
+       --help | -h)
+@@ -92,19 +93,19 @@
+ initAndConfigure
+ 
+ # Prepare folders
+-mkdir -p "$BINDIR"
+-mkdir -p "$BASEDIR/tmp/"
+-rm -rf "$BASEDIR"/tmp/*
++mkdir -p "$DESTDIR$BINDIR"
++mkdir -p "$DESTDIR$BASEDIR/tmp/"
++rm -rf "$DESTDIR$BASEDIR"/tmp/*
+ mkdir -p "$DOWNLOADDIR"
+ 
+ # Copy svg icon
+-cp "$IES4LINUX/lib/ies4linux.svg" "$BASEDIR"
++cp "$IES4LINUX/lib/ies4linux.svg" "$DESTDIR$BASEDIR"
+ 
+ # Load modules
+ source "$IES4LINUX/lib/download.sh"
+ source "$IES4LINUX/lib/install.sh"
+ 
+-rm -rf "$BASEDIR/tmp"
++rm -rf "$DESTDIR$BASEDIR/tmp"
+ 
+ # Last messages
+ section $MSG_INSTALLATIONS_FINISHED
+diff -Nur ies4linux-2.0.orig/lib/flash.sh ies4linux-2.0.chng/lib/flash.sh
+--- ies4linux-2.0.orig/lib/flash.sh	2006-07-28 08:02:13.000000000 +0200
++++ ies4linux-2.0.chng/lib/flash.sh	2006-10-18 20:25:26.000000000 +0200
+@@ -3,14 +3,14 @@
+ 
+ [ "$INSTALLFLASH" = "1" ] && {
+ 	section $MSG_INSTALLING_FLASH
+-		cd "$BASEDIR/tmp/"
++		cd "$DESTDIR$BASEDIR/tmp/"
+ 
+ 	subsection $MSG_EXTRACTING_FILES
+-		cabextract -q -d "$BASEDIR/tmp/" "$DOWNLOADDIR/swflash.cab" &> /dev/null
+-		FLASHOCX=$(echo $BASEDIR/tmp/*.ocx | sed -e "s/.*\///")
++		cabextract -q -d "$DESTDIR$BASEDIR/tmp/" "$DOWNLOADDIR/swflash.cab" &> /dev/null
++		FLASHOCX=$(echo $DESTDIR$BASEDIR/tmp/*.ocx | sed -e "s/.*\///")
+ 	
+ 	subsection $MSG_INSTALLING_FLASH_ON ie6
+-		cp swflash.inf "$BASEDIR/ie6/$DRIVEC/$WINDOWS/$INF/"
++		cp swflash.inf "$DESTDIR$BASEDIR/ie6/$DRIVEC/$WINDOWS/$INF/"
+ 		wine rundll32 setupapi.dll,InstallHinfSection DefaultInstall 128 ./swflash.inf &> /dev/null
+ 		register_dll "C:\\Windows\\System\\Macromed\\Flash\\$FLASHOCX"
+ 		wineboot
+diff -Nur ies4linux-2.0.orig/lib/functions.sh ies4linux-2.0.chng/lib/functions.sh
+--- ies4linux-2.0.orig/lib/functions.sh	2006-07-28 08:34:10.000000000 +0200
++++ ies4linux-2.0.chng/lib/functions.sh	2006-10-18 20:34:35.000000000 +0200
+@@ -2,7 +2,7 @@
+ # Functions and vars
+ 
+ createShortcuts() {
+-        cat << END > "$BINDIR/$1"
++        cat << END > "$DESTDIR$BINDIR/$1"
+ #!/usr/bin/env bash
+ # IEs 4 Linux script to run $1 - http://tatanka.com.br/ies4linux
+ 
+@@ -16,7 +16,7 @@
+ fi
+ 
+ END
+-        chmod +x "$BINDIR/$1"
++        chmod +x "$DESTDIR$BINDIR/$1"
+         if [ "$CREATE_ICON" = "1" ]; then
+                 if cd ~/Desktop || cd ~/desktop; then
+                       "$IES4LINUX/lib/mkicon" \
+@@ -50,7 +50,7 @@
+ }
+ 
+ function clean_tmp() {
+-	rm -rf "$BASEDIR"/tmp/*
++	rm -rf "$DESTDIR$BASEDIR"/tmp/*
+ }
+ function extractCABs() {
+ 	local tmp="cabextract -Lq"
+@@ -76,10 +76,10 @@
+ }
+ function run_ie(){
+ 	cd
+-	if which ie$1 2> /dev/null | grep "$BINDIR/ie$1" &> /dev/null ; then
++	if which ie$1 2> /dev/null | grep "$DESTDIR$BINDIR/ie$1" &> /dev/null ; then
+ 		echo " ie$1"
+ 	else
+-		local l=$BINDIR/ie$1
++		local l=$DESTDIR$BINDIR/ie$1
+ 		echo " ${l//\/\//\/}"
+ 	fi
+ }
+\ Brak znaku nowej linii na końcu pliku
+diff -Nur ies4linux-2.0.orig/lib/install.sh ies4linux-2.0.chng/lib/install.sh
+--- ies4linux-2.0.orig/lib/install.sh	2006-07-28 08:17:03.000000000 +0200
++++ ies4linux-2.0.chng/lib/install.sh	2006-10-18 20:29:28.000000000 +0200
+@@ -9,8 +9,8 @@
+ 	
+ 	subsection $MSG_INITIALIZING
+ 		DIR="$DOWNLOADDIR/ie6/$IE6_LOCALE/"
+-		set_wine_prefix "$BASEDIR/ie6/"
+-		rm -rf "$BASEDIR/ie6"
++		set_wine_prefix "$DESTDIR$BASEDIR/ie6/"
++		rm -rf "$DESTDIR$BASEDIR/ie6"
+ 
+ 	subsection $MSG_CREATING_PREFIX
+ 		wineprefixcreate &> /dev/null || {
+@@ -25,22 +25,22 @@
+ 		SYSTEM32=System32
+ 		FONTS=Fonts
+ 		INF=Inf
+-		if [ -d "$BASEDIR/ie6/fake_windows" ]; then DRIVEC=fake_windows; fi
+-		if [ -d "$BASEDIR/ie6/$DRIVEC/windows" ]; then WINDOWS=windows; fi
+-		if [ -d "$BASEDIR/ie6/$DRIVEC/$WINDOWS/system32" ]; then SYSTEM32=system32; fi
+-		if [ -d "$BASEDIR/ie6/$DRIVEC/$WINDOWS/fonts" ]; then FONTS=fonts; fi
+-		if [ -d "$BASEDIR/ie6/$DRIVEC/$WINDOWS/inf" ]; then INF=inf;fi
++		if [ -d "$DESTDIR$BASEDIR/ie6/fake_windows" ]; then DRIVEC=fake_windows; fi
++		if [ -d "$DESTDIR$BASEDIR/ie6/$DRIVEC/windows" ]; then WINDOWS=windows; fi
++		if [ -d "$DESTDIR$BASEDIR/ie6/$DRIVEC/$WINDOWS/system32" ]; then SYSTEM32=system32; fi
++		if [ -d "$DESTDIR$BASEDIR/ie6/$DRIVEC/$WINDOWS/fonts" ]; then FONTS=fonts; fi
++		if [ -d "$DESTDIR$BASEDIR/ie6/$DRIVEC/$WINDOWS/inf" ]; then INF=inf;fi
+ 		export DRIVEC WINDOWS SYSTEM FONTS INF
+ 
+ 		# symlinking system to system32
+-		if [ -d "$BASEDIR/ie6/$DRIVEC/$WINDOWS/$SYSTEM32" ]; then 
+-			rm -rf "$BASEDIR/ie6/$DRIVEC/$WINDOWS/"{S,s}ystem
+-			cd "$BASEDIR/ie6/$DRIVEC/$WINDOWS/"
++		if [ -d "$DESTDIR$BASEDIR/ie6/$DRIVEC/$WINDOWS/$SYSTEM32" ]; then 
++			rm -rf "$DESTDIR$BASEDIR/ie6/$DRIVEC/$WINDOWS/"{S,s}ystem
++			cd "$DESTDIR$BASEDIR/ie6/$DRIVEC/$WINDOWS/"
+ 			ln -s "$SYSTEM32" "system"
+ 		fi
+ 
+ 	subsection $MSG_EXTRACTING_CABS
+-		cd "$BASEDIR/tmp"
++		cd "$DESTDIR$BASEDIR/tmp"
+ 		extractCABs "$DIR"/{ADVAUTH,CRLUPD,HHUPD,IEDOM,IE_S*,SCR56EN,SETUPW95,VGX}.CAB
+ 		extractCABs ie_1.cab
+ 		rm -f *cab regsvr32.exe setup*
+@@ -52,38 +52,38 @@
+ 		rm *hlp
+ 	
+ 	subsection $MSG_INSTALLING IE 6
+-		mv *.inf "$BASEDIR/ie6/$DRIVEC/$WINDOWS/$INF/"
+-		mv cscript.exe "$BASEDIR/ie6/$DRIVEC/$WINDOWS/$COMMAND/"
+-		mv wscript.exe "$BASEDIR/ie6/$DRIVEC/$WINDOWS/"
++		mv *.inf "$DESTDIR$BASEDIR/ie6/$DRIVEC/$WINDOWS/$INF/"
++		mv cscript.exe "$DESTDIR$BASEDIR/ie6/$DRIVEC/$WINDOWS/$COMMAND/"
++		mv wscript.exe "$DESTDIR$BASEDIR/ie6/$DRIVEC/$WINDOWS/"
+ 		
+-		mv sch128c.dll  "$BASEDIR/ie6/$DRIVEC/$WINDOWS/$SYSTEM/schannel.dll"
+-		mkdir -p "$BASEDIR/ie6/$DRIVEC/Program Files/Internet Explorer"
+-		mv iexplore.exe "$BASEDIR/ie6/$DRIVEC/Program Files/Internet Explorer/iexplore.exe"
++		mv sch128c.dll  "$DESTDIR$BASEDIR/ie6/$DRIVEC/$WINDOWS/$SYSTEM/schannel.dll"
++		mkdir -p "$DESTDIR$BASEDIR/ie6/$DRIVEC/Program Files/Internet Explorer"
++		mv iexplore.exe "$DESTDIR$BASEDIR/ie6/$DRIVEC/Program Files/Internet Explorer/iexplore.exe"
+ 		
+-		mkdir -p "$BASEDIR/ie6/$DRIVEC/$WINDOWS/$SYSTEM/sfp/ie/"
+-		mv vgx.cat "$BASEDIR/ie6/$DRIVEC/$WINDOWS/$SYSTEM/sfp/ie/"
+-		mv -f * "$BASEDIR/ie6/$DRIVEC/$WINDOWS/$SYSTEM/"
++		mkdir -p "$DESTDIR$BASEDIR/ie6/$DRIVEC/$WINDOWS/$SYSTEM/sfp/ie/"
++		mv vgx.cat "$DESTDIR$BASEDIR/ie6/$DRIVEC/$WINDOWS/$SYSTEM/sfp/ie/"
++		mv -f * "$DESTDIR$BASEDIR/ie6/$DRIVEC/$WINDOWS/$SYSTEM/"
+ 	
+ 	subsection $MSG_INSTALLING_FONTS
+ 		extractCABs -F "*TTF" "$DIR"/FONT*CAB
+-		mv *ttf "$BASEDIR/ie6/$DRIVEC/$WINDOWS/$FONTS/"
++		mv *ttf "$DESTDIR$BASEDIR/ie6/$DRIVEC/$WINDOWS/$FONTS/"
+ 
+ 	subsection $MSG_INSTALLING RICHED20
+ 		extractCABs -F ver1200.exe "$DOWNLOADDIR/249973USA8.exe"
+-		extractCABs "$BASEDIR/tmp/ver1200.exe"
++		extractCABs "$DESTDIR$BASEDIR/tmp/ver1200.exe"
+ 		wine rundll32 setupapi.dll,InstallHinfSection DefaultInstall 128 ./1200up.inf
+-		mv *.inf "$BASEDIR/ie6/$DRIVEC/$WINDOWS/$INF/"
++		mv *.inf "$DESTDIR$BASEDIR/ie6/$DRIVEC/$WINDOWS/$INF/"
+ 		rm -f *
+ 	
+ 	subsection $MSG_INSTALLING ActiveX MFC40
+ 		extractCABs "$DOWNLOADDIR/mfc40.cab"
+ 		extractCABs mfc40.exe
+ 		wine rundll32 setupapi.dll,InstallHinfSection DefaultInstall 128 ./mfc40.inf
+-		mv *.inf "$BASEDIR/ie6/$DRIVEC/$WINDOWS/$INF/"
++		mv *.inf "$DESTDIR$BASEDIR/ie6/$DRIVEC/$WINDOWS/$INF/"
+ 		rm -f *
+ 	
+ 	subsection $MSG_INSTALLING DCOM98
+-		extractCABs -d "$BASEDIR/ie6/$DRIVEC/$WINDOWS/$SYSTEM/" "$DOWNLOADDIR/DCOM98.EXE"
++		extractCABs -d "$DESTDIR$BASEDIR/ie6/$DRIVEC/$WINDOWS/$SYSTEM/" "$DOWNLOADDIR/DCOM98.EXE"
+ 		wine rundll32 setupapi.dll,InstallHinfSection DefaultInstall 128 ./dcom98.inf
+ 		rm -f *
+ 
+@@ -92,9 +92,9 @@
+ 	
+ 	subsection $MSG_FINALIZING
+ 		wineboot
+-		touch "$BASEDIR/ie6/.firstrun"
++		touch "$DESTDIR$BASEDIR/ie6/.firstrun"
+ 		createShortcuts ie6 6.0
+-		chmod -R u+rwx "$BASEDIR/ie6"
++		chmod -R u+rwx "$DESTDIR$BASEDIR/ie6"
+ 		clean_tmp
+ 	
+ 	ok
+@@ -105,28 +105,28 @@
+ [ "$INSTALLIE55"   = "1" ] &&  {
+ 	section $MSG_INSTALLING IE 5.5
+ 		kill_wineserver
+-		set_wine_prefix "$BASEDIR/ie55/"
++		set_wine_prefix "$DESTDIR$BASEDIR/ie55/"
+ 
+ 	subsection $MSG_COPYING_IE6
+-		rm -rf "$BASEDIR/ie55"
+-		cp -r "$BASEDIR"/ie6 "$BASEDIR"/ie55
+-		DIR="$BASEDIR/ie55/$DRIVEC/$WINDOWS/$SYSTEM"
++		rm -rf "$DESTDIR$BASEDIR/ie55"
++		cp -r "$DESTDIR$BASEDIR"/ie6 "$DESTDIR$BASEDIR"/ie55
++		DIR="$DESTDIR$BASEDIR/ie55/$DRIVEC/$WINDOWS/$SYSTEM"
+ 		rm "$DIR"/{browseui,dispex,dxtmsft,dxtrans,inetcpl,inetcplc,jscript,mshtml,mshtmled,mshtmler,shdocvw,urlmon}.*
+ 	
+ 	subsection $MSG_EXTRACTING_FILES
+-		cd "$BASEDIR/tmp/"
++		cd "$DESTDIR$BASEDIR/tmp/"
+ 		unzip -Lqq "$DOWNLOADDIR"/ie55sp2_9x.zip
+-		mv ie55sp2_9x/*{dll,tlb,cpl} "$BASEDIR/ie55/$DRIVEC/$WINDOWS/$SYSTEM/"
+-		mv ie55sp2_9x/iexplore.exe "$BASEDIR/ie55/$DRIVEC/Program Files/Internet Explorer/iexplore.exe"
++		mv ie55sp2_9x/*{dll,tlb,cpl} "$DESTDIR$BASEDIR/ie55/$DRIVEC/$WINDOWS/$SYSTEM/"
++		mv ie55sp2_9x/iexplore.exe "$DESTDIR$BASEDIR/ie55/$DRIVEC/Program Files/Internet Explorer/iexplore.exe"
+ 	
+ 	subsection $MSG_INSTALLING_REGISTRY
+ 		add_registry "$IES4LINUX"/winereg/ie55.reg
+ 
+ 	subsection $MSG_FINALIZING
+ 		wineboot
+-		touch "$BASEDIR/ie6/.firstrun"
++		touch "$DESTDIR$BASEDIR/ie6/.firstrun"
+ 		createShortcuts ie55 5.5
+-		chmod -R u+rwx "$BASEDIR/ie55"
++		chmod -R u+rwx "$DESTDIR$BASEDIR/ie55"
+ 		clean_tmp
+ 	
+ 	ok
+@@ -135,19 +135,19 @@
+ [ "$INSTALLIE5"   = "1" ] &&  {
+ 	section $MSG_INSTALLING IE 5.0
+ 		kill_wineserver
+-		set_wine_prefix "$BASEDIR/ie5/"
++		set_wine_prefix "$DESTDIR$BASEDIR/ie5/"
+ 
+ 	subsection $MSG_COPYING_IE6
+-		rm -rf "$BASEDIR/ie5"
+-		cp -r "$BASEDIR"/ie6 "$BASEDIR"/ie5
+-		DIR="$BASEDIR/ie5/$DRIVEC/$WINDOWS/$SYSTEM"
++		rm -rf "$DESTDIR$BASEDIR/ie5"
++		cp -r "$DESTDIR$BASEDIR"/ie6 "$DESTDIR$BASEDIR"/ie5
++		DIR="$DESTDIR$BASEDIR/ie5/$DRIVEC/$WINDOWS/$SYSTEM"
+ 		rm "$DIR"/{browseui,dispex,dxtmsft,dxtrans,inetcpl,inetcplc,jscript,mshtml,mshtmled,mshtmler,shdocvw,urlmon}.*
+ 	
+ 	subsection $MSG_EXTRACTING_FILES
+-		cd "$BASEDIR/tmp/"
++		cd "$DESTDIR$BASEDIR/tmp/"
+ 		unzip -Lqq "$DOWNLOADDIR/ie501sp2_9x.zip"
+-		mv ie501sp2_9x/*{dll,tlb,cpl} "$BASEDIR/ie5/$DRIVEC/$WINDOWS/$SYSTEM/"
+-		mv ie501sp2_9x/iexplore.exe "$BASEDIR/ie5/$DRIVEC/Program Files/Internet Explorer/iexplore.exe"
++		mv ie501sp2_9x/*{dll,tlb,cpl} "$DESTDIR$BASEDIR/ie5/$DRIVEC/$WINDOWS/$SYSTEM/"
++		mv ie501sp2_9x/iexplore.exe "$DESTDIR$BASEDIR/ie5/$DRIVEC/Program Files/Internet Explorer/iexplore.exe"
+ 
+ 	
+ 	subsection $MSG_INSTALLING_REGISTRY
+@@ -155,9 +155,9 @@
+ 	
+ 	subsection $MSG_FINALIZING
+ 		wineboot
+-		touch "$BASEDIR/ie6/.firstrun"
++		touch "$DESTDIR$BASEDIR/ie6/.firstrun"
+ 		createShortcuts ie5 5.0
+-		chmod -R u+rwx "$BASEDIR/ie5"
++		chmod -R u+rwx "$DESTDIR$BASEDIR/ie5"
+ 		clean_tmp
+ 
+ 	ok
+diff -Nur ies4linux-2.0.orig/lib/terminal.sh ies4linux-2.0.chng/lib/terminal.sh
+--- ies4linux-2.0.orig/lib/terminal.sh	2006-07-12 04:08:58.000000000 +0200
++++ ies4linux-2.0.chng/lib/terminal.sh	2006-10-18 20:32:46.000000000 +0200
+@@ -196,8 +196,9 @@
+  --install-icon         Install(or not) an icon in Desktop
+  --no-install-icon
+ 
+- --basedir BASEDIR      Base location for installs [$BASEDIR_DEFAULT]
++ --basedir BASEDIR      Base location for installs [$BASEDIR_DEFAULT]a
+  --bindir BINDIR        Location of your bin folder [$BINDIR_DEFAULT]
++ --destdir DESTDIR	Destination direcotry (for rpm install eg.)
+  --downloaddir DLDIR    Where downloads will go [BASEDIR/$DOWNLOADDIR_SUFFIX]
+ 
+  --locale LOCALE        The locale for the installation [\$LANG determines]
