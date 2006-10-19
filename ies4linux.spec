@@ -7,10 +7,11 @@
 
 %define	_installdir	%{_datadir}/ies4linux
 
-# TODOs:
-#	- *.desktop files for each ie
-#	- sources downloaded via install script as NoSourceXX
-#	- move profiles to $HOME directory
+# TODO:
+# - *.desktop files for each ie
+# - sources downloaded via install script as NoSourceXX
+# - move profiles to $HOME directory
+# - License tag specifies package license? then it should not be GPL
 
 Summary:	Run IE 6, 5.5 and 5 on Linux with Wine
 Summary(pl):	Uruchamianie IE 6, 5.5 i 5 pod Linuksem przy u¿yciu Wine
@@ -85,9 +86,6 @@ Internet Explorer 6.
 %description ie6 -l pl
 Internet Explorer 6.
 
-%build
-exit 0
-
 %install
 rm -rf $RPM_BUILD_ROOT
 
@@ -119,12 +117,15 @@ rm -rf $RPM_BUILD_ROOT
 %groupadd -g 212 -r -f ies4linux
 
 %post
-%banner -e %{name} <<EOF
+if [ "$1" = 1 ]; then
+%banner -e %{name} <<'EOF'
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 * Remember to add users which will use IEs to ies4linux group or  *
 * they won't be able to create they profiles and runing IEs fail. *
 * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
 EOF
+#'
+fi
 
 %postun
 if [ "$1" = "0" ]; then
