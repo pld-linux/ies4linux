@@ -62,12 +62,14 @@ Explorera pod Linuksem.
 %prep
 %setup -q
 %patch0 -p1
+%if %{with ie7}
 mkdir ie7
 cd ie7
 cabextract %{SOURCE2}
 unzip %{SOURCE3}
 cp %{SOURCE4} .
 cd -
+%endif
 
 %package ie5
 Summary:	Internet Explorer 5
