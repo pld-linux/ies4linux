@@ -2,7 +2,7 @@
 Encoding=UTF-8
 Type=Application
 Exec=ie6
-Icon=ies4linux
+Icon=/usr/share/ies4linux/ies4linux.svg
 Name=Internet Explorer
 Comment=Internet Explorer
 Categories=Network;WebBrowser;
