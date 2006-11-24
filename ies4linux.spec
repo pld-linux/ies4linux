@@ -1,3 +1,6 @@
+# TODO
+# - wants (ie6 at least) to download gecko installer, but still fails
+#
 # This spec file is released under the GNU General Public License version 2.0
 # (http://www.gnu.org/licenses/gpl.txt).
 #
