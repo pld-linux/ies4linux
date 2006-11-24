@@ -1,6 +1,9 @@
 [Desktop Entry]
-Name=Internet Explorer
+Encoding=UTF-8
 Type=Application
-Comment=Internet Explorer
-Icon=ies4linux
 Exec=ie6
+Icon=ies4linux
+Name=Internet Explorer
+Comment=Internet Explorer
+Categories=Network;WebBrowser;
+# vi: encoding=utf-8
