@@ -22,7 +22,7 @@ Summary:	Run IE 7, 6, 5.5 and 5 on Linux with Wine
 Summary(pl):	Uruchamianie IE 7, 6, 5.5 i 5 pod Linuksem przy u¿yciu Wine
 Name:		ies4linux
 Version:	2.0
-Release:	0.2
+Release:	0.3
 License:	GPL v2
 Group:		X11/Applications/Networking
 Source0:	http://www.tatanka.com.br/ies4linux/downloads/%{name}-%{version}.tar.gz
@@ -152,12 +152,12 @@ ln -sf %{_bindir}/ies4linux $RPM_BUILD_ROOT%{_bindir}/ie7
 
 cp -a $RPM_BUILD_ROOT%{_installdir}/ie6 $RPM_BUILD_ROOT%{_installdir}/ie7
 cp ie7/{wininet,iertutil,shlwapi,urlmon,jscript,vbscript,mshtml,mshtmled,mshtmler,advpack,inetcplc,normaliz}.dll \
-    ie7/inetcpl.cpl \
-    $RPM_BUILD_ROOT%{_installdir}/ie7/drive_c/windows/system
+	ie7/inetcpl.cpl \
+	$RPM_BUILD_ROOT%{_installdir}/ie7/drive_c/windows/system
     
 cat $RPM_BUILD_ROOT%{_installdir}/ie6/user.reg | \
-    sed 's:"Version"="win98":"Version"="win98"\n\n[Software\\Wine\\AppDefaults\\iexplore.exe] 1161336541\n"Version"="winxp"\n:' \
-    > $RPM_BUILD_ROOT%{_installdir}/ie7/user.reg
+	sed 's:"Version"="win98":"Version"="win98"\n\n[Software\\Wine\\AppDefaults\\iexplore.exe] 1161336541\n"Version"="winxp"\n:' \
+	> $RPM_BUILD_ROOT%{_installdir}/ie7/user.reg
 %endif
 
 %clean
@@ -169,10 +169,8 @@ rm -rf $RPM_BUILD_ROOT
 %post
 if [ "$1" = 1 ]; then
 %banner -e %{name} <<'EOF'
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-* Remember to add users which will use IEs to ies4linux group or  *
-* they won't be able to create they profiles and runing IEs fail. *
-* * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+Remember to add users which will use IEs to ies4linux group or they won't be
+able to create they profiles and running IEs fail.
 EOF
 #'
 fi
