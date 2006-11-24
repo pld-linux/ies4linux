@@ -8,7 +8,7 @@
 # of Internet Explorer itself. Satisfying the terms of Internet Explorer's
 # license remains the user's responsibility.
 
-# NOTE: For IE7 you should have normalize.dll and inetcomm.dll from your 
+# NOTE: For IE7 you should have normalize.dll and inetcomm.dll from your
 #	WindowsXP SP2 installation!
 
 %bcond_with	ie7	build ie7 package
@@ -25,7 +25,7 @@ Summary:	Run IE 7, 6, 5.5 and 5 on Linux with Wine
 Summary(pl):	Uruchamianie IE 7, 6, 5.5 i 5 pod Linuksem przy u¿yciu Wine
 Name:		ies4linux
 Version:	2.0
-Release:	0.3
+Release:	0.4
 License:	GPL v2
 Group:		X11/Applications/Networking
 Source0:	http://www.tatanka.com.br/ies4linux/downloads/%{name}-%{version}.tar.gz
@@ -39,6 +39,7 @@ NoSource:	3
 Source4:	inetcplc.dll
 NoSource:	4
 %endif
+Source5:	%{name}.desktop
 Patch0:		%{name}-destdir.patch
 URL:		http://www.tatanka.com.br/ies4linux/index-en.html
 BuildRequires:	cabextract
@@ -73,6 +74,14 @@ unzip %{SOURCE3}
 cp %{SOURCE4} .
 cd -
 %endif
+
+for a in 5.0 5.5 6.0 7.0; do
+	v=$(echo "$a" | sed -e 's,\.0,,' | tr -d .)
+	sed -e "
+		s,ie6,ie$v,
+		s,6.0,$a,
+	" %{SOURCE5} > ie$v.desktop
+done
 
 %package ie5
 Summary:	Internet Explorer 5
@@ -124,6 +133,7 @@ Internet Explorer 7.
 
 %install
 rm -rf $RPM_BUILD_ROOT
+install -d $RPM_BUILD_ROOT%{_desktopdir}
 
 bash ./ies4linux \
 	--install-ie55 \
@@ -149,15 +159,17 @@ cp %{SOURCE1} $RPM_BUILD_ROOT%{_bindir}/ies4linux
 ln -sf %{_bindir}/ies4linux $RPM_BUILD_ROOT%{_bindir}/ie5
 ln -sf %{_bindir}/ies4linux $RPM_BUILD_ROOT%{_bindir}/ie55
 ln -sf %{_bindir}/ies4linux $RPM_BUILD_ROOT%{_bindir}/ie6
+cp -a ie[56]*.desktop $RPM_BUILD_ROOT%{_desktopdir}
 
 %if %{with ie7}
 ln -sf %{_bindir}/ies4linux $RPM_BUILD_ROOT%{_bindir}/ie7
+cp -a ie7.desktop $RPM_BUILD_ROOT%{_desktopdir}/ie7.desktop
 
 cp -a $RPM_BUILD_ROOT%{_installdir}/ie6 $RPM_BUILD_ROOT%{_installdir}/ie7
 cp ie7/{wininet,iertutil,shlwapi,urlmon,jscript,vbscript,mshtml,mshtmled,mshtmler,advpack,inetcplc,normaliz}.dll \
 	ie7/inetcpl.cpl \
 	$RPM_BUILD_ROOT%{_installdir}/ie7/drive_c/windows/system
-    
+
 cat $RPM_BUILD_ROOT%{_installdir}/ie6/user.reg | \
 	sed 's:"Version"="win98":"Version"="win98"\n\n[Software\\Wine\\AppDefaults\\iexplore.exe] 1161336541\n"Version"="winxp"\n:' \
 	> $RPM_BUILD_ROOT%{_installdir}/ie7/user.reg
@@ -192,7 +204,8 @@ fi
 
 %files ie5
 %defattr(644,root,root,755)
-%{_bindir}/ie5
+%attr(755,root,root) %{_bindir}/ie5
+%{_desktopdir}/ie5.desktop
 %{_installdir}/ie5/*.reg
 %dir %{_installdir}/ie5
 %dir %{_installdir}/ie5/dosdevices
@@ -264,7 +277,8 @@ fi
 
 %files ie55
 %defattr(644,root,root,755)
-%{_bindir}/ie55
+%attr(755,root,root) %{_bindir}/ie55
+%{_desktopdir}/ie55.desktop
 %{_installdir}/ie55/*.reg
 %dir %{_installdir}/ie55
 %dir %{_installdir}/ie55/dosdevices
@@ -336,7 +350,8 @@ fi
 
 %files ie6
 %defattr(644,root,root,755)
-%{_bindir}/ie6
+%attr(755,root,root) %{_bindir}/ie6
+%{_desktopdir}/ie6.desktop
 %{_installdir}/ie6/*.reg
 %dir %{_installdir}/ie6
 %dir %{_installdir}/ie6/dosdevices
@@ -409,7 +424,8 @@ fi
 %if %{with ie7}
 %files ie7
 %defattr(644,root,root,755)
-%{_bindir}/ie7
+%attr(755,root,root) %{_bindir}/ie7
+%{_desktopdir}/ie7.desktop
 %{_installdir}/ie7/*.reg
 %dir %{_installdir}/ie7
 %dir %{_installdir}/ie7/dosdevices
