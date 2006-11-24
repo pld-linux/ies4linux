@@ -1,0 +1,7 @@
+[Desktop Entry]
+Exec="/home/glen/cxoffice/bin/wine" --check --cx-app "C:////Program Files////Internet Explorer////IEXPLORE.EXE"
+Type=Application
+X-Created-by=CrossOver Office
+Icon=/home/glen/.cxoffice/dotwine/dosdevices/c:/Windows/Icons/9d75_iexplore.-32528.xpm
+Name=Internet Explorer
+Comment=Internet Explorer
