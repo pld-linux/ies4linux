@@ -173,7 +173,7 @@ rm -rf $RPM_BUILD_ROOT
 if [ "$1" = 1 ]; then
 %banner -e %{name} <<'EOF'
 Remember to add users which will use IEs to ies4linux group or they won't be
-able to create they profiles and running IEs fail.
+able to create their profiles and running IEs will fail.
 EOF
 #'
 fi
