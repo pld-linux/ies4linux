@@ -1,10 +1,13 @@
 [Desktop Entry]
-Encoding=UTF-8
+Name=Internet Explorer 6.0
+Name[pl]=Internet Explorer 6.0
+GenericName=Web Browser
+GenericName[pl]=Przeglądarka WWW
+Comment=Internet Explorer 6.0
+Comment[pl]=Internet Explorer 6.0
 Type=Application
 Exec=ie6
 Icon=/usr/share/ies4linux/ies4linux.svg
-Name=Internet Explorer 6.0
-GenericName=Microsoft Windows Application
-Comment=Internet Explorer 6.0
 Categories=Network;WebBrowser;
+Encoding=UTF-8
 # vi: encoding=utf-8
