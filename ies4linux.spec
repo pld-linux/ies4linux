@@ -16,16 +16,14 @@
 %define	_installdir	%{_datadir}/ies4linux
 
 # TODO:
-# - *.desktop files for each ie
 # - sources downloaded via install script as NoSourceXX
 # - move profiles to $HOME directory
 # - License tag specifies package license? then it should not be GPL
-
 Summary:	Run IE 7, 6, 5.5 and 5 on Linux with Wine
 Summary(pl):	Uruchamianie IE 7, 6, 5.5 i 5 pod Linuksem przy u¿yciu Wine
 Name:		ies4linux
 Version:	2.0
-Release:	0.4
+Release:	0.6
 License:	GPL v2
 Group:		X11/Applications/Networking
 Source0:	http://www.tatanka.com.br/ies4linux/downloads/%{name}-%{version}.tar.gz
@@ -41,9 +39,11 @@ NoSource:	4
 %endif
 Source5:	%{name}.desktop
 Patch0:		%{name}-destdir.patch
+Patch1:		%{name}.patch
 URL:		http://www.tatanka.com.br/ies4linux/index-en.html
 BuildRequires:	cabextract
 BuildRequires:	wine
+#BuildRequires:	bash
 Requires(postun):	/usr/sbin/groupdel
 Requires(postun):	/usr/sbin/userdel
 Requires(pre):	/bin/id
@@ -66,6 +66,7 @@ Explorera pod Linuksem.
 %prep
 %setup -q
 %patch0 -p1
+%patch1 -p1
 %if %{with ie7}
 mkdir ie7
 cd ie7
@@ -143,10 +144,7 @@ bash ./ies4linux \
 	--destdir $RPM_BUILD_ROOT \
 	--downloaddir %{_sourcedir} \
 	--locale EN-US \
-	--install-flash << EOF
-n
-n
-EOF
+	--install-flash
 
 rm -rf $RPM_BUILD_ROOT%{_installdir}/{ie5,ie55,ie6}/drive_c/windows/profiles/%(id -u -n)
 rm $RPM_BUILD_ROOT%{_installdir}/ie{5,55,6}/.firstrun
@@ -156,13 +154,13 @@ rm $RPM_BUILD_ROOT%{_installdir}/ie{5,55,6}/.firstrun
 #
 rm $RPM_BUILD_ROOT%{_bindir}/ie*
 cp %{SOURCE1} $RPM_BUILD_ROOT%{_bindir}/ies4linux
-ln -sf %{_bindir}/ies4linux $RPM_BUILD_ROOT%{_bindir}/ie5
-ln -sf %{_bindir}/ies4linux $RPM_BUILD_ROOT%{_bindir}/ie55
-ln -sf %{_bindir}/ies4linux $RPM_BUILD_ROOT%{_bindir}/ie6
+ln -sf ies4linux $RPM_BUILD_ROOT%{_bindir}/ie5
+ln -sf ies4linux $RPM_BUILD_ROOT%{_bindir}/ie55
+ln -sf ies4linux $RPM_BUILD_ROOT%{_bindir}/ie6
 cp -a ie[56]*.desktop $RPM_BUILD_ROOT%{_desktopdir}
 
 %if %{with ie7}
-ln -sf %{_bindir}/ies4linux $RPM_BUILD_ROOT%{_bindir}/ie7
+ln -sf ies4linux $RPM_BUILD_ROOT%{_bindir}/ie7
 cp -a ie7.desktop $RPM_BUILD_ROOT%{_desktopdir}/ie7.desktop
 
 cp -a $RPM_BUILD_ROOT%{_installdir}/ie6 $RPM_BUILD_ROOT%{_installdir}/ie7
