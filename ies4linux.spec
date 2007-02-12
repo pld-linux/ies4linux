@@ -20,7 +20,7 @@
 # - move profiles to $HOME directory
 # - License tag specifies package license? then it should not be GPL
 Summary:	Run IE 7, 6, 5.5 and 5 on Linux with Wine
-Summary(pl.UTF-8):   Uruchamianie IE 7, 6, 5.5 i 5 pod Linuksem przy użyciu Wine
+Summary(pl.UTF-8):	Uruchamianie IE 7, 6, 5.5 i 5 pod Linuksem przy użyciu Wine
 Name:		ies4linux
 Version:	2.0
 Release:	0.6
@@ -86,7 +86,7 @@ done
 
 %package ie5
 Summary:	Internet Explorer 5
-Summary(pl.UTF-8):   Internet Explorer 5
+Summary(pl.UTF-8):	Internet Explorer 5
 Group:		X11/Applications/Networking
 Requires:	ies4linux = %{version}-%{release}
 
@@ -98,7 +98,7 @@ Internet Explorer 5.
 
 %package ie55
 Summary:	Internet Explorer 5.5
-Summary(pl.UTF-8):   Internet Explorer 5.5
+Summary(pl.UTF-8):	Internet Explorer 5.5
 Group:		X11/Applications/Networking
 Requires:	ies4linux = %{version}-%{release}
 
@@ -110,7 +110,7 @@ Internet Explorer 5.5.
 
 %package ie6
 Summary:	Internet Explorer 6
-Summary(pl.UTF-8):   Internet Explorer 6
+Summary(pl.UTF-8):	Internet Explorer 6
 Group:		X11/Applications/Networking
 Requires:	ies4linux = %{version}-%{release}
 
@@ -122,7 +122,7 @@ Internet Explorer 6.
 
 %package ie7
 Summary:	Internet Explorer 7
-Summary(pl.UTF-8):   Internet Explorer 7
+Summary(pl.UTF-8):	Internet Explorer 7
 Group:		X11/Applications/Networking
 Requires:	ies4linux = %{version}-%{release}
 
