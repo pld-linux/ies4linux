@@ -9,7 +9,7 @@
 
 IE=`basename "$0" | awk -F - '{ print $1 }'`
 LOCALE=`basename "$0" | sed 's:ie[0-9]*-*::'`
-[ "x$LOCALE" == "x" ] && LOCALE="en-US"
+[ "$LOCALE" = "" ] && LOCALE="en-US"
 MASTERPREFIX="/usr/share/ies4linux/$LOCALE/$IE"
 WINEPREFIX="${HOME}/.ies4linux/$IE-$LOCALE"
 
