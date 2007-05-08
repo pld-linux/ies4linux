@@ -643,23 +643,23 @@ Encoding=UTF-8
 EOF
 }
 
-cat > add_file_to_list << EOF
+cat > add_file_to_list << 'EOF'
 #!/bin/sh
 
-	LOCALE="\$1"
-	VERSION="\$2"
-	FULLFILE="\$3"
-	PKGFILE=\`echo "\$FULLFILE" | sed "s:$RPM_BUILD_ROOT::"\`
-	LIST=ie\$VERSION-\$LOCALE.files
+	LOCALE="$1"
+	VERSION="$2"
+	FULLFILE="$3"
+	PKGFILE=`echo "$FULLFILE" | sed "s:$RPM_BUILD_ROOT::"`
+	LIST=ie$VERSION-$LOCALE.files
 
-	if [ -d "\$FULLFILE" ]; then
-		echo "%%dir \\"\$PKGFILE\\"" >> \$LIST
+	if [ -d "$FULLFILE" ]; then
+		echo "%%dir \"$PKGFILE\"" >> $LIST
 	else
-		EXE=`basename "\$PKGFILE" | sed -r 's:.+.(exe):\1:g'`
-		if [ "x\$EXE" == "xEXE" ]; then
-			echo "%%attr(755,root,root) \\"\$PKGFILE\\"" >> \$LIST
+		EXE=`basename "$PKGFILE" | sed -r 's:.+.(exe):\1:g'`
+		if [ "$EXE" = "EXE" ]; then
+			echo "%%attr(755,root,root) \"$PKGFILE\"" >> $LIST
 		else
-			echo "\\"\$PKGFILE\\"" >> \$LIST
+			echo "\"$PKGFILE\"" >> $LIST
 		fi
 	fi
 EOF
@@ -681,18 +681,17 @@ gen_filelist()
 	find $RPM_BUILD_ROOT%{_installdir}/$LOCALE/ie$VERSION -exec ./add_file_to_list $LOCALE $VERSION '{}' ';'
 	
 	echo "%%attr(755,root,root) %{_bindir}/ie$VERSION-$LOCALE" >> $LIST
-	[ "x$LOCALE" == "xen-US" ] && echo "%%attr(755,root,root) %{_bindir}/ie$VERSION" >> $LIST
+	[ "$LOCALE" = "en-US" ] && echo "%%attr(755,root,root) %{_bindir}/ie$VERSION" >> $LIST
 	echo "%{_desktopdir}/ie$VERSION-$LOCALE.desktop" >> $LIST
 	echo "%%dir %{_installdir}/$LOCALE" >> $LIST
 }
 
 # IE 5, 5.5 built only with en_US locale
 # IE 7 needs more sources for other locales
-for LOCALE in %{locales}
-do
-	[ "x$LOCALE" == "x" ] && continue
+for LOCALE in %{locales}; do
+	[ "$LOCALE" = "" ] && continue
 	OPTS=""
-	[ "xen-US" == "x$LOCALE" ] && OPTS="--install-ie55 --install-ie5"
+	[ "xen-US" = "x$LOCALE" ] && OPTS="--install-ie55 --install-ie5"
 
 	bash ./ies4linux \
 		$OPTS \
@@ -723,7 +722,7 @@ do
 	gen_desktopfile $LOCALE 6.0
 	ln -sf %{_installdir}/profiles $RPM_BUILD_ROOT%{_installdir}/$LOCALE/ie6/drive_c/windows/profiles
 	
-	if [ "x$LOCALE" == "xen-US" ]; then
+	if [ "$LOCALE" = "en-US" ]; then
 		ln -sf ies4linux $RPM_BUILD_ROOT%{_bindir}/ie5
 		ln -sf ies4linux $RPM_BUILD_ROOT%{_bindir}/ie5-en-US
 		ln -sf ies4linux $RPM_BUILD_ROOT%{_bindir}/ie55
@@ -738,8 +737,8 @@ do
 	fi
 
 	%if %{with ie7}
-	if [ "x$LOCALE" == "xen-US" ] || [ "x$LOCALE" == "xpl" ]; then
-		[ "x$LOCALE" == "xen-US" ] && ln -sf ies4linux $RPM_BUILD_ROOT%{_bindir}/ie7
+	if [ "$LOCALE" = "en-US" ] || [ "$LOCALE" = "pl" ]; then
+		[ "$LOCALE" = "en-US" ] && ln -sf ies4linux $RPM_BUILD_ROOT%{_bindir}/ie7
 		ln -sf ies4linux $RPM_BUILD_ROOT%{_bindir}/ie7-$LOCALE
 		gen_desktopfile $LOCALE 7
 
