@@ -1,5 +1,9 @@
+#
 # TODO
 # - wants (ie6 at least) to download gecko installer, but still fails
+# - sources downloaded via install script as NoSourceXX
+# - move profiles to $HOME directory
+# - License tag specifies package license? then it should not be GPL
 #
 # This spec file is released under the GNU General Public License version 2.0
 # (http://www.gnu.org/licenses/gpl.txt).
@@ -8,36 +12,213 @@
 # of Internet Explorer itself. Satisfying the terms of Internet Explorer's
 # license remains the user's responsibility.
 
-# NOTE: For IE7 you should have normalize.dll and inetcomm.dll from your
+# NOTE: For IE7 you should have normaliz.dll and inetcplc.dll from your
 #	WindowsXP SP2 installation!
 
 %bcond_with	ie7	build ie7 package
 
 %define	_installdir	%{_datadir}/ies4linux
 
-# TODO:
-# - sources downloaded via install script as NoSourceXX
-# - move profiles to $HOME directory
-# - License tag specifies package license? then it should not be GPL
+%bcond_with	all_locales	# build for all locales
+%bcond_without	locale_en_US	# build without en_US version
+%bcond_with	locale_pt_BR	# build with pt_BR version
+%bcond_with	locale_de	# build with DE version
+%bcond_with	locale_fr	# build with FR version
+%bcond_with	locale_es	# build with ES version
+%bcond_with	locale_it	# build with IT version
+%bcond_with	locale_nl	# build with NL version
+%bcond_with	locale_sv	# build with SV version
+%bcond_with	locale_ja	# build with JA version
+%bcond_with	locale_ko	# build with KO version
+%bcond_with	locale_no	# build with NO version
+%bcond_with	locale_da	# build with DA version
+%bcond_with	locale_cn	# build with CN version
+%bcond_with	locale_tw	# build with TW version
+%bcond_with	locale_fi	# build with FI version
+%bcond_with	locale_pl	# build with PL version
+%bcond_with	locale_hu	# build with HU version
+%bcond_with	locale_ar	# build with AR version
+%bcond_with	locale_he	# build with HE version
+%bcond_with	locale_cs	# build with CS version
+%bcond_with	locale_pt	# build with PT version
+%bcond_with	locale_ru	# build with RU version
+%bcond_with	locale_el	# build with EL version
+%bcond_with	locale_tr	# build with TR version
+
+%if %{with all_locales}
+%define with_locale_en_US 1
+%define with_locale_pt_BR 1
+%define with_locale_de 1
+%define with_locale_fr 1
+%define with_locale_es 1
+%define with_locale_it 1
+%define with_locale_nl 1
+%define with_locale_sv 1
+%define with_locale_ja 1
+%define with_locale_ko 1
+%define with_locale_no 1
+%define with_locale_da 1
+%define with_locale_cn 1
+%define with_locale_tw 1
+%define with_locale_fi 1
+%define with_locale_pl 1
+%define with_locale_hu 1
+%define with_locale_ar 1
+%define with_locale_he 1
+%define with_locale_cs 1
+%define with_locale_pt 1
+%define with_locale_ru 1
+%define with_locale_el 1
+%define with_locale_tr 1
+%endif
+
+%define loc_en_US	en-US
+%if %{without locale_en_US}
+%define loc_en_US	""
+%endif
+
+%define loc_pt_BR 	""
+%if %{with locale_pt_BR}
+%define loc_pt_BR 	pt-BR
+%endif
+
+%define loc_de	""
+%if %{with locale_de}
+%define loc_de	de
+%endif
+
+%define loc_fr	""
+%if %{with locale_fr}
+%define loc_fr	fr
+%endif
+
+%define loc_es	""
+%if %{with locale_es}
+%define loc_es	es
+%endif
+
+%define loc_it	""
+%if %{with locale_it}
+%define loc_it	it
+%endif
+
+%define loc_nl	""
+%if %{with locale_nl}
+%define loc_nl	nl
+%endif
+
+%define loc_sv	""
+%if %{with locale_sv}
+%define loc_sv	sv
+%endif
+
+%define loc_ja	""
+%if %{with locale_ja}
+%define loc_ja	ja
+%endif
+
+%define loc_ko	""
+%if %{with locale_ko}
+%define loc_ko	ko
+%endif
+
+%define loc_no	""
+%if %{with locale_no}
+%define loc_no	no
+%endif
+
+%define loc_da	""
+%if %{with locale_da}
+%define loc_da	da
+%endif
+
+%define loc_cn	""
+%if %{with locale_cn}
+%define loc_cn	cn
+%endif
+
+%define loc_tw	""
+%if %{with locale_tw}
+%define loc_tw	tw
+%endif
+
+%define loc_fi	""
+%if %{with locale_fi}
+%define loc_fi	fi
+%endif
+
+%define loc_pl	""
+%if %{with locale_pl}
+%define loc_pl	pl
+%endif
+
+%define loc_hu	""
+%if %{with locale_hu}
+%define loc_hu	hu
+%endif
+
+%define loc_ar	""
+%if %{with locale_ar}
+%define loc_ar	ar
+%endif
+
+%define loc_he	""
+%if %{with locale_he}
+%define loc_he	he
+%endif
+
+%define loc_cs	""
+%if %{with locale_cs}
+%define loc_cs	cs
+%endif
+
+%define loc_pt	""
+%if %{with locale_pt}
+%define loc_pt	pt
+%endif
+
+%define loc_ru	""
+%if %{with locale_ru}
+%define loc_ru	ru
+%endif
+
+%define loc_el	""
+%if %{with locale_el}
+%define loc_el	el
+%endif
+
+%define loc_tr	""
+%if %{with locale_tr}
+%define loc_tr	tr
+%endif
+
+%define locales %{loc_en_US} %{loc_pt_BR} %{loc_de} %{loc_fr} %{loc_es} %{loc_it} %{loc_nl} %{loc_sv} %{loc_ja} %{loc_ko} %{loc_no} %{loc_da} %{loc_cn} %{loc_tw} %{loc_fi} %{loc_pl} %{loc_hu} %{loc_ar} %{loc_he} %{loc_cs} %{loc_pt} %{loc_ru} %{loc_el} %{loc_tr}
+
+
 Summary:	Run IE 7, 6, 5.5 and 5 on Linux with Wine
 Summary(pl.UTF-8):	Uruchamianie IE 7, 6, 5.5 i 5 pod Linuksem przy użyciu Wine
 Name:		ies4linux
-Version:	2.0
-Release:	0.6
+Version:	2.0.5
+Release:	1
 License:	GPL v2
 Group:		X11/Applications/Networking
 Source0:	http://www.tatanka.com.br/ies4linux/downloads/%{name}-%{version}.tar.gz
-# Source0-md5:	c790d47e8aef5267037b1df5250352f8
+# Source0-md5:	a2983360de355d1a407eb20077c39792
 Source1:	%{name}.ie.sh
 %if %{with ie7}
+%if %{with locale_en_US}
 Source2:	http://download.microsoft.com/download/3/8/8/38889DC1-848C-4BF2-8335-86C573AD86D9/IE7-WindowsXP-x86-enu.exe
 NoSource:	2
-Source3:	http://www.down-dll.com/dll/normaliz.zip
+%endif
+Source3:	normaliz.dll
 NoSource:	3
 Source4:	inetcplc.dll
 NoSource:	4
+%if %{with locale_pl}
+Source5:	http://download.microsoft.com/download/6/a/0/6a01b4fa-66e5-4447-8f36-9330a8725ecd/IE7-WindowsXP-x86-plk.exe
+NoSource:	5
 %endif
-Source5:	%{name}.desktop
+%endif
 Patch0:		%{name}-destdir.patch
 Patch1:		%{name}.patch
 URL:		http://www.tatanka.com.br/ies4linux/index-en.html
@@ -63,115 +244,522 @@ running on Linux.
 IEs4Linux to prostszy sposób na uruchamianie Microsoft Internet
 Explorera pod Linuksem.
 
-%prep
-%setup -q
-%patch0 -p1
-%patch1 -p1
-%if %{with ie7}
-mkdir ie7
-cd ie7
-cabextract %{SOURCE2}
-unzip %{SOURCE3}
-cp %{SOURCE4} .
-cd -
-%endif
 
-for a in 5.0 5.5 6.0 7.0; do
-	v=$(echo "$a" | sed -e 's,\.0,,' | tr -d .)
-	sed -e "
-		s,ie6,ie$v,
-		s,6.0,$a,
-	" %{SOURCE5} > ie$v.desktop
-done
-
-%package ie5
+%package ie5-en_US
 Summary:	Internet Explorer 5
 Summary(pl.UTF-8):	Internet Explorer 5
 Group:		X11/Applications/Networking
 Requires:	ies4linux = %{version}-%{release}
+Obsoletes:	ies4linux-ie5
 
-%description ie5
+%description ie5-en_US
 Internet Explorer 5.
 
-%description ie5 -l pl.UTF-8
+%description ie5-en_US -l pl.UTF-8
 Internet Explorer 5.
 
-%package ie55
+%package ie55-en_US
 Summary:	Internet Explorer 5.5
 Summary(pl.UTF-8):	Internet Explorer 5.5
 Group:		X11/Applications/Networking
 Requires:	ies4linux = %{version}-%{release}
+Obsoletes:	ies4linux-ie5
 
-%description ie55
+%description ie55-en_US
 Internet Explorer 5.5.
 
-%description ie55 -l pl.UTF-8
+%description ie55-en_US -l pl.UTF-8
 Internet Explorer 5.5.
 
-%package ie6
+%package ie6-en_US
+Summary:	Internet Explorer 6
+Summary(pl.UTF-8):	Internet Explorer 6
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+Obsoletes:	ies4linux-ie55
+
+%description ie6-en_US
+Internet Explorer 6.
+
+%description ie6-en_US -l pl.UTF-8
+Internet Explorer 6.
+
+%package ie7-en_US
+Summary:	Internet Explorer 7
+Summary(pl.UTF-8):	Internet Explorer 7
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+Obsoletes:	ies4linux-ie7
+
+%description ie7-en_US
+Internet Explorer 7.
+
+%description ie7-en_US -l pl.UTF-8
+Internet Explorer 7.
+
+%package ie6-pt_BR
 Summary:	Internet Explorer 6
 Summary(pl.UTF-8):	Internet Explorer 6
 Group:		X11/Applications/Networking
 Requires:	ies4linux = %{version}-%{release}
 
-%description ie6
+%description ie6-pt_BR
 Internet Explorer 6.
 
-%description ie6 -l pl.UTF-8
+%description ie6-pt_BR -l pl.UTF-8
 Internet Explorer 6.
 
-%package ie7
+%package ie6-de
+Summary:	Internet Explorer 6
+Summary(pl.UTF-8):	Internet Explorer 6
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-de
+Internet Explorer 6.
+
+%description ie6-de -l pl.UTF-8
+Internet Explorer 6.
+
+%package ie6-fr
+Summary:	Internet Explorer 6
+Summary(pl.UTF-8):	Internet Explorer 6
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-fr
+Internet Explorer 6.
+
+%description ie6-fr -l pl.UTF-8
+Internet Explorer 6.
+
+%package ie6-es
+Summary:	Internet Explorer 6
+Summary(pl.UTF-8):	Internet Explorer 6
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-es
+Internet Explorer 6.
+
+%description ie6-es -l pl.UTF-8
+Internet Explorer 6.
+
+%package ie6-it
+Summary:	Internet Explorer 6
+Summary(pl.UTF-8):	Internet Explorer 6
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-it
+Internet Explorer 6.
+
+%description ie6-it -l pl.UTF-8
+Internet Explorer 6.
+
+%package ie6-nl
+Summary:	Internet Explorer 6
+Summary(pl.UTF-8):	Internet Explorer 6
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-nl
+Internet Explorer 6.
+
+%description ie6-nl -l pl.UTF-8
+Internet Explorer 6.
+
+%package ie6-sv
+Summary:	Internet Explorer 6
+Summary(pl.UTF-8):	Internet Explorer 6
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-sv
+Internet Explorer 6.
+
+%description ie6-sv -l pl.UTF-8
+Internet Explorer 6.
+
+%package ie6-ja
+Summary:	Internet Explorer 6
+Summary(pl.UTF-8):	Internet Explorer 6
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-ja
+Internet Explorer 6.
+
+%description ie6-ja -l pl.UTF-8
+Internet Explorer 6.
+
+%package ie6-ko
+Summary:	Internet Explorer 6
+Summary(pl.UTF-8):	Internet Explorer 6
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-ko
+Internet Explorer 6.
+
+%description ie6-ko -l pl.UTF-8
+Internet Explorer 6.
+
+%package ie6-no
+Summary:	Internet Explorer 6
+Summary(pl.UTF-8):	Internet Explorer 6
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-no
+Internet Explorer 6.
+
+%description ie6-no -l pl.UTF-8
+Internet Explorer 6.
+
+%package ie6-da
+Summary:	Internet Explorer 6
+Summary(pl.UTF-8):	Internet Explorer 6
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-da
+Internet Explorer 6.
+
+%description ie6-da -l pl.UTF-8
+Internet Explorer 6.
+
+%package ie6-cn
+Summary:	Internet Explorer 6
+Summary(pl.UTF-8):	Internet Explorer 6
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-cn
+Internet Explorer 6.
+
+%description ie6-cn -l pl.UTF-8
+Internet Explorer 6.
+
+%package ie6-tw
+Summary:	Internet Explorer 6
+Summary(pl.UTF-8):	Internet Explorer 6
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-tw
+Internet Explorer 6.
+
+%description ie6-tw -l pl.UTF-8
+Internet Explorer 6.
+
+%package ie6-fi
+Summary:	Internet Explorer 6
+Summary(pl.UTF-8):	Internet Explorer 6
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-fi
+Internet Explorer 6.
+
+%description ie6-fi -l pl.UTF-8
+Internet Explorer 6.
+
+%package ie6-pl
+Summary:	Internet Explorer 6
+Summary(pl.UTF-8):	Internet Explorer 6
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-pl
+Internet Explorer 6.
+
+%description ie6-pl -l pl.UTF-8
+Internet Explorer 6.
+
+%package ie7-pl
 Summary:	Internet Explorer 7
 Summary(pl.UTF-8):	Internet Explorer 7
 Group:		X11/Applications/Networking
 Requires:	ies4linux = %{version}-%{release}
 
-%description ie7
+%description ie7-pl
 Internet Explorer 7.
 
-%description ie7 -l pl.UTF-8
+%description ie7-pl -l pl.UTF-8
 Internet Explorer 7.
+
+%package ie6-hu
+Summary:	Internet Explorer 6
+Summary(pl.UTF-8):	Internet Explorer 6
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-hu
+Internet Explorer 6.
+
+%description ie6-hu -l pl.UTF-8
+Internet Explorer 6.
+
+%package ie6-ar
+Summary:	Internet Explorer 6
+Summary(pl.UTF-8):	Internet Explorer 6
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-ar
+Internet Explorer 6.
+
+%description ie6-ar -l pl.UTF-8
+Internet Explorer 6.
+
+%package ie6-he
+Summary:	Internet Explorer 6
+Summary(pl.UTF-8):	Internet Explorer 6
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-he
+Internet Explorer 6.
+
+%description ie6-he -l pl.UTF-8
+Internet Explorer 6.
+
+%package ie6-cs
+Summary:	Internet Explorer 6
+Summary(pl.UTF-8):	Internet Explorer 6
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-cs
+Internet Explorer 6.
+
+%description ie6-cs -l pl.UTF-8
+Internet Explorer 6.
+
+%package ie6-pt
+Summary:	Internet Explorer 6
+Summary(pl.UTF-8):	Internet Explorer 6
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-pt
+Internet Explorer 6.
+
+%description ie6-pt -l pl.UTF-8
+Internet Explorer 6.
+
+%package ie6-ru
+Summary:	Internet Explorer 6
+Summary(pl.UTF-8):	Internet Explorer 6
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-ru
+Internet Explorer 6.
+
+%description ie6-ru -l pl.UTF-8
+Internet Explorer 6.
+
+%package ie6-el
+Summary:	Internet Explorer 6
+Summary(pl.UTF-8):	Internet Explorer 6
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-el
+Internet Explorer 6.
+
+%description ie6-el -l pl.UTF-8
+Internet Explorer 6.
+
+%package ie6-tr
+Summary:	Internet Explorer 6
+Summary(pl.UTF-8):	Internet Explorer 6
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-tr
+Internet Explorer 6.
+
+%description ie6-tr -l pl.UTF-8
+Internet Explorer 6.
+
+
+%prep
+%setup -q
+%patch0 -p1
+%patch1 -p1
+
+#
+# IE 7
+#
+%if %{with ie7}
+
+%if %{with locale_en_US}
+mkdir -p ie7/en-US
+cd ie7/en-US
+cabextract %{SOURCE2}
+cd -
+%endif
+
+%if %{with locale_pl}
+mkdir -p ie7/pl
+cd ie7/pl
+cabextract %{SOURCE5}
+cd -
+%endif
+
+cp %{SOURCE3} ie7
+cp %{SOURCE4} ie7
+%endif
+
 
 %install
 rm -rf $RPM_BUILD_ROOT
-install -d $RPM_BUILD_ROOT%{_desktopdir}
+install -d $RPM_BUILD_ROOT{%{_desktopdir},%{_bindir},%{_pixmapsdir}}
 
-bash ./ies4linux \
-	--install-ie55 \
-	--install-ie5 \
-	--basedir %{_installdir} \
-	--bindir %{_bindir} \
-	--destdir $RPM_BUILD_ROOT \
-	--downloaddir %{_sourcedir} \
-	--locale EN-US \
-	--install-flash
-
-rm -rf $RPM_BUILD_ROOT%{_installdir}/{ie5,ie55,ie6}/drive_c/windows/profiles/%(id -u -n)
-rm $RPM_BUILD_ROOT%{_installdir}/ie{5,55,6}/.firstrun
-
-#
-# Shell scripts
-#
-rm $RPM_BUILD_ROOT%{_bindir}/ie*
 cp %{SOURCE1} $RPM_BUILD_ROOT%{_bindir}/ies4linux
-ln -sf ies4linux $RPM_BUILD_ROOT%{_bindir}/ie5
-ln -sf ies4linux $RPM_BUILD_ROOT%{_bindir}/ie55
-ln -sf ies4linux $RPM_BUILD_ROOT%{_bindir}/ie6
-cp -a ie[56]*.desktop $RPM_BUILD_ROOT%{_desktopdir}
 
-%if %{with ie7}
-ln -sf ies4linux $RPM_BUILD_ROOT%{_bindir}/ie7
-cp -a ie7.desktop $RPM_BUILD_ROOT%{_desktopdir}/ie7.desktop
+gen_desktopfile()
+{
+	LOCALE=$1
+	VERSION=$2
+	VER=`echo $VERSION | sed 's:\.0::; s:\.::'`
+	cat > $RPM_BUILD_ROOT%{_desktopdir}/ie$VER-$LOCALE.desktop << EOF
+[Desktop Entry]
+Name=Internet Explorer $VERSION ($LOCALE)
+Name[pl]=Internet Explorer $VERSION ($LOCALE)
+GenericName=Web Browser
+GenericName[pl]=Przeglądarka WWW
+Comment=Internet Explorer $VERSION ($LOCALE)
+Comment[pl]=Internet Explorer $VERSION ($LOCALE)
+Type=Application
+Exec=ie$VER-$LOCALE
+Icon=%{_pixmapsdir}/ies4linux.svg
+Categories=Network;WebBrowser;
+Encoding=UTF-8
+# vi: encoding=utf-8
+EOF
+}
 
-cp -a $RPM_BUILD_ROOT%{_installdir}/ie6 $RPM_BUILD_ROOT%{_installdir}/ie7
-cp ie7/{wininet,iertutil,shlwapi,urlmon,jscript,vbscript,mshtml,mshtmled,mshtmler,advpack,inetcplc,normaliz}.dll \
-	ie7/inetcpl.cpl \
-	$RPM_BUILD_ROOT%{_installdir}/ie7/drive_c/windows/system
+cat > add_file_to_list << EOF
+#!/bin/sh
 
-cat $RPM_BUILD_ROOT%{_installdir}/ie6/user.reg | \
-	sed 's:"Version"="win98":"Version"="win98"\n\n[Software\\Wine\\AppDefaults\\iexplore.exe] 1161336541\n"Version"="winxp"\n:' \
-	> $RPM_BUILD_ROOT%{_installdir}/ie7/user.reg
-%endif
+	LOCALE="\$1"
+	VERSION="\$2"
+	FULLFILE="\$3"
+	PKGFILE=\`echo "\$FULLFILE" | sed "s:$RPM_BUILD_ROOT::"\`
+	LIST=ie\$VERSION-\$LOCALE.files
+
+	if [ -d "\$FULLFILE" ]; then
+		echo "%%dir \\"\$PKGFILE\\"" >> \$LIST
+	else
+		EXE=`basename "\$PKGFILE" | sed -r 's:.+.(exe):\1:g'`
+		if [ "x\$EXE" == "xEXE" ]; then
+			echo "%%attr(755,root,root) \\"\$PKGFILE\\"" >> \$LIST
+		else
+			echo "\\"\$PKGFILE\\"" >> \$LIST
+		fi
+	fi
+EOF
+chmod +x add_file_to_list
+
+gen_filelist()
+{
+	#
+	# It seems that some files are written in background
+	# so we have to wait for them to be available.
+	#
+	sleep 5s
+
+	LOCALE="$1"
+	VERSION="$2"
+	LIST=ie$VERSION-$LOCALE.files
+	echo "%defattr(644,root,root,755)" > $LIST
+
+	find $RPM_BUILD_ROOT%{_installdir}/$LOCALE/ie$VERSION -exec ./add_file_to_list $LOCALE $VERSION '{}' ';'
+	
+	echo "%%attr(755,root,root) %{_bindir}/ie$VERSION-$LOCALE" >> $LIST
+	[ "x$LOCALE" == "xen-US" ] && echo "%%attr(755,root,root) %{_bindir}/ie$VERSION" >> $LIST
+	echo "%{_desktopdir}/ie$VERSION-$LOCALE.desktop" >> $LIST
+	echo "%%dir %{_installdir}/$LOCALE" >> $LIST
+}
+
+# IE 5, 5.5 built only with en_US locale
+# IE 7 needs more sources for other locales
+for LOCALE in %{locales}
+do
+	[ "x$LOCALE" == "x" ] && continue
+	OPTS=""
+	[ "xen-US" == "x$LOCALE" ] && OPTS="--install-ie55 --install-ie5"
+
+	bash ./ies4linux \
+		$OPTS \
+		--basedir %{_installdir}/$LOCALE \
+		--bindir %{_bindir} \
+		--destdir $RPM_BUILD_ROOT \
+		--downloaddir %{_sourcedir} \
+		--locale $LOCALE \
+		--install-flash
+
+	if [ ! -d $RPM_BUILD_ROOT%{_installdir}/profiles ]; then
+		install -d $RPM_BUILD_ROOT%{_installdir}/profiles
+		cp -a "$RPM_BUILD_ROOT%{_installdir}/$LOCALE/ie6/drive_c/windows/profiles/All Users" \
+			$RPM_BUILD_ROOT%{_installdir}/profiles
+	fi
+	[ ! -f $RPM_BUILD_ROOT%{_pixmapsdir}/ies4linux.svg ] && \
+		cp $RPM_BUILD_ROOT%{_installdir}/$LOCALE/ies4linux.svg \
+			$RPM_BUILD_ROOT%{_pixmapsdir}
+	rm -f $RPM_BUILD_ROOT%{_installdir}/$LOCALE/ies4linux.svg
+	rm -rf $RPM_BUILD_ROOT%{_installdir}/$LOCALE/ie{5,55,6}/drive_c/windows/profiles
+	rm -f $RPM_BUILD_ROOT%{_installdir}/$LOCALE/ie{5,55,6}/.firstrun
+
+	#
+	# Shell scripts
+	#
+	rm -rf $RPM_BUILD_ROOT%{_installdir}/$LOCALE/bin
+	ln -sf ies4linux $RPM_BUILD_ROOT%{_bindir}/ie6-$LOCALE
+	gen_desktopfile $LOCALE 6.0
+	ln -sf %{_installdir}/profiles $RPM_BUILD_ROOT%{_installdir}/$LOCALE/ie6/drive_c/windows/profiles
+	
+	if [ "x$LOCALE" == "xen-US" ]; then
+		ln -sf ies4linux $RPM_BUILD_ROOT%{_bindir}/ie5
+		ln -sf ies4linux $RPM_BUILD_ROOT%{_bindir}/ie5-en-US
+		ln -sf ies4linux $RPM_BUILD_ROOT%{_bindir}/ie55
+		ln -sf ies4linux $RPM_BUILD_ROOT%{_bindir}/ie55-en-US
+		ln -sf ies4linux $RPM_BUILD_ROOT%{_bindir}/ie6
+		gen_desktopfile $LOCALE 5
+		gen_desktopfile $LOCALE 5.5
+		ln -sf %{_installdir}/profiles $RPM_BUILD_ROOT%{_installdir}/$LOCALE/ie5/drive_c/windows/profiles
+		ln -sf %{_installdir}/profiles $RPM_BUILD_ROOT%{_installdir}/$LOCALE/ie55/drive_c/windows/profiles
+		gen_filelist $LOCALE 5
+		gen_filelist $LOCALE 55
+	fi
+
+	%if %{with ie7}
+	if [ "x$LOCALE" == "xen-US" ] || [ "x$LOCALE" == "xpl" ]; then
+		[ "x$LOCALE" == "xen-US" ] && ln -sf ies4linux $RPM_BUILD_ROOT%{_bindir}/ie7
+		ln -sf ies4linux $RPM_BUILD_ROOT%{_bindir}/ie7-$LOCALE
+		gen_desktopfile $LOCALE 7
+
+		cp -a $RPM_BUILD_ROOT%{_installdir}/$LOCALE/ie6 $RPM_BUILD_ROOT%{_installdir}/$LOCALE/ie7
+		cp ie7/$LOCALE/{wininet,iertutil,shlwapi,urlmon,jscript,vbscript,mshtml,mshtmled,mshtmler,advpack}.dll \
+			ie7/$LOCALE/inetcpl.cpl ie7/inetcplc.dll ie7/normaliz.dll \
+			$RPM_BUILD_ROOT%{_installdir}/$LOCALE/ie7/drive_c/windows/system
+
+		cat $RPM_BUILD_ROOT%{_installdir}/$LOCALE/ie6/user.reg | \
+			sed 's:"Version"="win98":"Version"="win98"\n\n[Software\\Wine\\AppDefaults\\iexplore.exe] 1161336541\n"Version"="winxp"\n:' \
+			> $RPM_BUILD_ROOT%{_installdir}/$LOCALE/ie7/user.reg
+		
+		gen_filelist $LOCALE 7
+	fi
+	%endif
+	
+	gen_filelist $LOCALE 6
+done
+
+
 
 %clean
 rm -rf $RPM_BUILD_ROOT
@@ -198,298 +786,121 @@ fi
 %doc README
 %dir %{_installdir}
 %attr(755,root,root) %{_bindir}/ies4linux
-%{_installdir}/%{name}.svg
+%{_pixmapsdir}/%{name}.svg
+%dir %attr(770,root,ies4linux) %{_installdir}/profiles
+%dir "%{_installdir}/profiles/All Users"
+%dir "%{_installdir}/profiles/All Users/Application Data"
+%dir "%{_installdir}/profiles/All Users/Desktop"
+%dir "%{_installdir}/profiles/All Users/Documents"
+%dir "%{_installdir}/profiles/All Users/Favorites"
+%dir "%{_installdir}/profiles/All Users/Start Menu"
+%dir "%{_installdir}/profiles/All Users/Start Menu/Programs"
+%dir "%{_installdir}/profiles/All Users/Start Menu/Programs/StartUp"
+%dir "%{_installdir}/profiles/All Users/Templates"
 
-%files ie5
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/ie5
-%{_desktopdir}/ie5.desktop
-%{_installdir}/ie5/*.reg
-%dir %{_installdir}/ie5
-%dir %{_installdir}/ie5/dosdevices
-%{_installdir}/ie5/dosdevices/*:
-%dir %{_installdir}/ie5/drive_c
-%dir "%{_installdir}/ie5/drive_c/Program Files"
-%dir "%{_installdir}/ie5/drive_c/Program Files/Common Files"
-%dir "%{_installdir}/ie5/drive_c/Program Files/Internet Explorer"
-"%{_installdir}/ie5/drive_c/Program Files/Internet Explorer/iexplore.exe"
-%dir %{_installdir}/ie5/drive_c/windows
-%attr(755,root,root) %{_installdir}/ie5/drive_c/windows/*.exe
-%{_installdir}/ie5/drive_c/windows/*.ini
-%dir %{_installdir}/ie5/drive_c/windows/command
-%attr(755,root,root) %{_installdir}/ie5/drive_c/windows/command/start.exe
-%dir %{_installdir}/ie5/drive_c/windows/fonts
-%{_installdir}/ie5/drive_c/windows/fonts/*.ttf
-%dir %{_installdir}/ie5/drive_c/windows/help
-%{_installdir}/ie5/drive_c/windows/help/*.hlp
-%dir %{_installdir}/ie5/drive_c/windows/inf
-%{_installdir}/ie5/drive_c/windows/inf/*.inf
-%dir %{_installdir}/ie5/drive_c/windows/options
-%dir %{_installdir}/ie5/drive_c/windows/options/cabs
-%{_installdir}/ie5/drive_c/windows/options/cabs/*.dll
-%dir %attr(770,root,ies4linux) %{_installdir}/ie5/drive_c/windows/profiles
-%dir "%{_installdir}/ie5/drive_c/windows/profiles/All Users"
-%dir "%{_installdir}/ie5/drive_c/windows/profiles/All Users/Application Data"
-%dir "%{_installdir}/ie5/drive_c/windows/profiles/All Users/Desktop"
-%dir "%{_installdir}/ie5/drive_c/windows/profiles/All Users/Documents"
-%dir "%{_installdir}/ie5/drive_c/windows/profiles/All Users/Favorites"
-%dir "%{_installdir}/ie5/drive_c/windows/profiles/All Users/Start Menu"
-%dir "%{_installdir}/ie5/drive_c/windows/profiles/All Users/Start Menu/Programs"
-%dir "%{_installdir}/ie5/drive_c/windows/profiles/All Users/Start Menu/Programs/StartUp"
-%dir "%{_installdir}/ie5/drive_c/windows/profiles/All Users/Templates"
-%{_installdir}/ie5/drive_c/windows/system
-%dir %{_installdir}/ie5/drive_c/windows/system32
-%dir %{_installdir}/ie5/drive_c/windows/system32/Macromed
-%dir %{_installdir}/ie5/drive_c/windows/system32/Macromed/Flash
-%{_installdir}/ie5/drive_c/windows/system32/Macromed/Flash/*.ocx
-%attr(755,root,root) %{_installdir}/ie5/drive_c/windows/system32/Macromed/Flash/*.exe
-%dir %{_installdir}/ie5/drive_c/windows/system32/drivers
-%dir %{_installdir}/ie5/drive_c/windows/system32/sfp
-%dir %{_installdir}/ie5/drive_c/windows/system32/sfp/ie
-%{_installdir}/ie5/drive_c/windows/system32/sfp/ie/vgx.cat
-%attr(755,root,root) %{_installdir}/ie5/drive_c/windows/system32/*.exe
-%{_installdir}/ie5/drive_c/windows/system32/*.dll
-%{_installdir}/ie5/drive_c/windows/system32/*.ocx
-%{_installdir}/ie5/drive_c/windows/system32/*.cat
-%{_installdir}/ie5/drive_c/windows/system32/*.msc
-%{_installdir}/ie5/drive_c/windows/system32/*.nls
-%{_installdir}/ie5/drive_c/windows/system32/*.inf
-%{_installdir}/ie5/drive_c/windows/system32/*.vxd
-%{_installdir}/ie5/drive_c/windows/system32/*.txt
-%{_installdir}/ie5/drive_c/windows/system32/*.cnv
-%{_installdir}/ie5/drive_c/windows/system32/*.mof
-%{_installdir}/ie5/drive_c/windows/system32/*.htm
-%{_installdir}/ie5/drive_c/windows/system32/*.acm
-%{_installdir}/ie5/drive_c/windows/system32/*.cpl
-%{_installdir}/ie5/drive_c/windows/system32/*.gif
-%{_installdir}/ie5/drive_c/windows/system32/*.tlb
-%{_installdir}/ie5/drive_c/windows/system32/*.stf
-%{_installdir}/ie5/drive_c/windows/system32/*.bat
-%{_installdir}/ie5/drive_c/windows/system32/*.pdr
-%{_installdir}/ie5/drive_c/windows/system32/*.rat
-%{_installdir}/ie5/drive_c/windows/system32/*.icm
-%{_installdir}/ie5/drive_c/windows/system32/*.wav
-%{_installdir}/ie5/drive_c/windows/system32/*.crl
-%{_installdir}/ie5/drive_c/windows/system32/*.drv
-%dir %{_installdir}/ie5/drive_c/windows/temp
+%if %{with locale_en_US}
+%files ie5-en_US -f ie5-en-US.files
+%files ie55-en_US -f ie55-en-US.files
+%files ie6-en_US -f ie6-en-US.files
+%endif
 
-%files ie55
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/ie55
-%{_desktopdir}/ie55.desktop
-%{_installdir}/ie55/*.reg
-%dir %{_installdir}/ie55
-%dir %{_installdir}/ie55/dosdevices
-%{_installdir}/ie55/dosdevices/*:
-%dir %{_installdir}/ie55/drive_c
-%dir "%{_installdir}/ie55/drive_c/Program Files"
-%dir "%{_installdir}/ie55/drive_c/Program Files/Common Files"
-%dir "%{_installdir}/ie55/drive_c/Program Files/Internet Explorer"
-"%{_installdir}/ie55/drive_c/Program Files/Internet Explorer/iexplore.exe"
-%dir %{_installdir}/ie55/drive_c/windows
-%attr(755,root,root) %{_installdir}/ie55/drive_c/windows/*.exe
-%{_installdir}/ie55/drive_c/windows/*.ini
-%dir %{_installdir}/ie55/drive_c/windows/command
-%attr(755,root,root) %{_installdir}/ie55/drive_c/windows/command/start.exe
-%dir %{_installdir}/ie55/drive_c/windows/fonts
-%{_installdir}/ie55/drive_c/windows/fonts/*.ttf
-%dir %{_installdir}/ie55/drive_c/windows/help
-%{_installdir}/ie55/drive_c/windows/help/*.hlp
-%dir %{_installdir}/ie55/drive_c/windows/inf
-%{_installdir}/ie55/drive_c/windows/inf/*.inf
-%dir %{_installdir}/ie55/drive_c/windows/options
-%dir %{_installdir}/ie55/drive_c/windows/options/cabs
-%{_installdir}/ie55/drive_c/windows/options/cabs/*.dll
-%dir %attr(770,root,ies4linux) %{_installdir}/ie55/drive_c/windows/profiles
-%dir "%{_installdir}/ie55/drive_c/windows/profiles/All Users"
-%dir "%{_installdir}/ie55/drive_c/windows/profiles/All Users/Application Data"
-%dir "%{_installdir}/ie55/drive_c/windows/profiles/All Users/Desktop"
-%dir "%{_installdir}/ie55/drive_c/windows/profiles/All Users/Documents"
-%dir "%{_installdir}/ie55/drive_c/windows/profiles/All Users/Favorites"
-%dir "%{_installdir}/ie55/drive_c/windows/profiles/All Users/Start Menu"
-%dir "%{_installdir}/ie55/drive_c/windows/profiles/All Users/Start Menu/Programs"
-%dir "%{_installdir}/ie55/drive_c/windows/profiles/All Users/Start Menu/Programs/StartUp"
-%dir "%{_installdir}/ie55/drive_c/windows/profiles/All Users/Templates"
-%{_installdir}/ie55/drive_c/windows/system
-%dir %{_installdir}/ie55/drive_c/windows/system32
-%dir %{_installdir}/ie55/drive_c/windows/system32/Macromed
-%dir %{_installdir}/ie55/drive_c/windows/system32/Macromed/Flash
-%{_installdir}/ie55/drive_c/windows/system32/Macromed/Flash/*.ocx
-%attr(755,root,root) %{_installdir}/ie55/drive_c/windows/system32/Macromed/Flash/*.exe
-%dir %{_installdir}/ie55/drive_c/windows/system32/drivers
-%dir %{_installdir}/ie55/drive_c/windows/system32/sfp
-%dir %{_installdir}/ie55/drive_c/windows/system32/sfp/ie
-%{_installdir}/ie55/drive_c/windows/system32/sfp/ie/vgx.cat
-%attr(755,root,root) %{_installdir}/ie55/drive_c/windows/system32/*.exe
-%{_installdir}/ie55/drive_c/windows/system32/*.dll
-%{_installdir}/ie55/drive_c/windows/system32/*.ocx
-%{_installdir}/ie55/drive_c/windows/system32/*.cat
-%{_installdir}/ie55/drive_c/windows/system32/*.msc
-%{_installdir}/ie55/drive_c/windows/system32/*.nls
-%{_installdir}/ie55/drive_c/windows/system32/*.inf
-%{_installdir}/ie55/drive_c/windows/system32/*.vxd
-%{_installdir}/ie55/drive_c/windows/system32/*.txt
-%{_installdir}/ie55/drive_c/windows/system32/*.cnv
-%{_installdir}/ie55/drive_c/windows/system32/*.mof
-%{_installdir}/ie55/drive_c/windows/system32/*.htm
-%{_installdir}/ie55/drive_c/windows/system32/*.acm
-%{_installdir}/ie55/drive_c/windows/system32/*.cpl
-%{_installdir}/ie55/drive_c/windows/system32/*.gif
-%{_installdir}/ie55/drive_c/windows/system32/*.tlb
-%{_installdir}/ie55/drive_c/windows/system32/*.stf
-%{_installdir}/ie55/drive_c/windows/system32/*.bat
-%{_installdir}/ie55/drive_c/windows/system32/*.pdr
-%{_installdir}/ie55/drive_c/windows/system32/*.rat
-%{_installdir}/ie55/drive_c/windows/system32/*.icm
-%{_installdir}/ie55/drive_c/windows/system32/*.wav
-%{_installdir}/ie55/drive_c/windows/system32/*.crl
-%{_installdir}/ie55/drive_c/windows/system32/*.drv
-%dir %{_installdir}/ie55/drive_c/windows/temp
+%if %{with locale_pt_BR}
+%files ie6-pt_BR -f ie6-pt-BR.files
+%endif
 
-%files ie6
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/ie6
-%{_desktopdir}/ie6.desktop
-%{_installdir}/ie6/*.reg
-%dir %{_installdir}/ie6
-%dir %{_installdir}/ie6/dosdevices
-%{_installdir}/ie6/dosdevices/*:
-%dir %{_installdir}/ie6/drive_c
-%dir "%{_installdir}/ie6/drive_c/Program Files"
-%dir "%{_installdir}/ie6/drive_c/Program Files/Common Files"
-%dir "%{_installdir}/ie6/drive_c/Program Files/Internet Explorer"
-"%{_installdir}/ie6/drive_c/Program Files/Internet Explorer/iexplore.exe"
-%dir %{_installdir}/ie6/drive_c/windows
-%attr(755,root,root) %{_installdir}/ie6/drive_c/windows/*.exe
-%{_installdir}/ie6/drive_c/windows/*.ini
-%dir %{_installdir}/ie6/drive_c/windows/command
-%attr(755,root,root) %{_installdir}/ie6/drive_c/windows/command/start.exe
-%dir %{_installdir}/ie6/drive_c/windows/fonts
-%{_installdir}/ie6/drive_c/windows/fonts/*.ttf
-%dir %{_installdir}/ie6/drive_c/windows/help
-%{_installdir}/ie6/drive_c/windows/help/*.hlp
-%dir %{_installdir}/ie6/drive_c/windows/inf
-%{_installdir}/ie6/drive_c/windows/inf/*.inf
-%dir %{_installdir}/ie6/drive_c/windows/options
-%dir %{_installdir}/ie6/drive_c/windows/options/cabs
-%{_installdir}/ie6/drive_c/windows/options/cabs/*.dll
-%dir %attr(770,root,ies4linux) %{_installdir}/ie6/drive_c/windows/profiles
-%dir "%{_installdir}/ie6/drive_c/windows/profiles/All Users"
-%dir "%{_installdir}/ie6/drive_c/windows/profiles/All Users/Application Data"
-%dir "%{_installdir}/ie6/drive_c/windows/profiles/All Users/Desktop"
-%dir "%{_installdir}/ie6/drive_c/windows/profiles/All Users/Documents"
-%dir "%{_installdir}/ie6/drive_c/windows/profiles/All Users/Favorites"
-%dir "%{_installdir}/ie6/drive_c/windows/profiles/All Users/Start Menu"
-%dir "%{_installdir}/ie6/drive_c/windows/profiles/All Users/Start Menu/Programs"
-%dir "%{_installdir}/ie6/drive_c/windows/profiles/All Users/Start Menu/Programs/StartUp"
-%dir "%{_installdir}/ie6/drive_c/windows/profiles/All Users/Templates"
-%{_installdir}/ie6/drive_c/windows/system
-%dir %{_installdir}/ie6/drive_c/windows/system32
-%dir %{_installdir}/ie6/drive_c/windows/system32/Macromed
-%dir %{_installdir}/ie6/drive_c/windows/system32/Macromed/Flash
-%{_installdir}/ie6/drive_c/windows/system32/Macromed/Flash/*.ocx
-%attr(755,root,root) %{_installdir}/ie6/drive_c/windows/system32/Macromed/Flash/*.exe
-%dir %{_installdir}/ie6/drive_c/windows/system32/drivers
-%dir %{_installdir}/ie6/drive_c/windows/system32/sfp
-%dir %{_installdir}/ie6/drive_c/windows/system32/sfp/ie
-%{_installdir}/ie6/drive_c/windows/system32/sfp/ie/vgx.cat
-%attr(755,root,root) %{_installdir}/ie6/drive_c/windows/system32/*.exe
-%{_installdir}/ie6/drive_c/windows/system32/*.dll
-%{_installdir}/ie6/drive_c/windows/system32/*.ocx
-%{_installdir}/ie6/drive_c/windows/system32/*.cat
-%{_installdir}/ie6/drive_c/windows/system32/*.msc
-%{_installdir}/ie6/drive_c/windows/system32/*.nls
-%{_installdir}/ie6/drive_c/windows/system32/*.inf
-%{_installdir}/ie6/drive_c/windows/system32/*.vxd
-%{_installdir}/ie6/drive_c/windows/system32/*.txt
-%{_installdir}/ie6/drive_c/windows/system32/*.cnv
-%{_installdir}/ie6/drive_c/windows/system32/*.mof
-%{_installdir}/ie6/drive_c/windows/system32/*.htm
-%{_installdir}/ie6/drive_c/windows/system32/*.acm
-%{_installdir}/ie6/drive_c/windows/system32/*.cpl
-%{_installdir}/ie6/drive_c/windows/system32/*.gif
-%{_installdir}/ie6/drive_c/windows/system32/*.tlb
-%{_installdir}/ie6/drive_c/windows/system32/*.stf
-%{_installdir}/ie6/drive_c/windows/system32/*.bat
-%{_installdir}/ie6/drive_c/windows/system32/*.pdr
-%{_installdir}/ie6/drive_c/windows/system32/*.rat
-%{_installdir}/ie6/drive_c/windows/system32/*.icm
-%{_installdir}/ie6/drive_c/windows/system32/*.wav
-%{_installdir}/ie6/drive_c/windows/system32/*.crl
-%{_installdir}/ie6/drive_c/windows/system32/*.drv
-%dir %{_installdir}/ie6/drive_c/windows/temp
+%if %{with locale_de}
+%files ie6-de -f ie6-de.files
+%endif
+
+%if %{with locale_fr}
+%files ie6-fr -f ie6-fr.files
+%endif
+
+%if %{with locale_es}
+%files ie6-es -f ie6-es.files
+%endif
+
+%if %{with locale_it}
+%files ie6-it -f ie6-it.files
+%endif
+
+%if %{with locale_nl}
+%files ie6-nl -f ie6-nl.files
+%endif
+
+%if %{with locale_sv}
+%files ie6-sv -f ie6-sv.files
+%endif
+
+%if %{with locale_ja}
+%files ie6-ja -f ie6-ja.files
+%endif
+
+%if %{with locale_ko}
+%files ie6-ko -f ie6-ko.files
+%endif
+
+%if %{with locale_no}
+%files ie6-no -f ie6-no.files
+%endif
+
+%if %{with locale_da}
+%files ie6-da -f ie6-da.files
+%endif
+
+%if %{with locale_cn}
+%files ie6-cn -f ie6-cn.files
+%endif
+
+%if %{with locale_tw}
+%files ie6-tw -f ie6-tw.files
+%endif
+
+%if %{with locale_fi}
+%files ie6-fi -f ie6-fi.files
+%endif
+
+%if %{with locale_pl}
+%files ie6-pl -f ie6-pl.files
+%endif
+
+%if %{with locale_hu}
+%files ie6-hu -f ie6-hu.files
+%endif
+
+%if %{with locale_ar}
+%files ie6-ar -f ie6-ar.files
+%endif
+
+%if %{with locale_he}
+%files ie6-he -f ie6-he.files
+%endif
+
+%if %{with locale_cs}
+%files ie6-cs -f ie6-cs.files
+%endif
+
+%if %{with locale_pt}
+%files ie6-pt -f ie6-pt.files
+%endif
+
+%if %{with locale_ru}
+%files ie6-ru -f ie6-ru.files
+%endif
+
+%if %{with locale_el}
+%files ie6-el -f ie6-el.files
+%endif
+
+%if %{with locale_tr}
+%files ie6-tr -f ie6-tr.files
+%endif
 
 %if %{with ie7}
-%files ie7
-%defattr(644,root,root,755)
-%attr(755,root,root) %{_bindir}/ie7
-%{_desktopdir}/ie7.desktop
-%{_installdir}/ie7/*.reg
-%dir %{_installdir}/ie7
-%dir %{_installdir}/ie7/dosdevices
-%{_installdir}/ie7/dosdevices/*:
-%dir %{_installdir}/ie7/drive_c
-%dir "%{_installdir}/ie7/drive_c/Program Files"
-%dir "%{_installdir}/ie7/drive_c/Program Files/Common Files"
-%dir "%{_installdir}/ie7/drive_c/Program Files/Internet Explorer"
-"%{_installdir}/ie7/drive_c/Program Files/Internet Explorer/iexplore.exe"
-%dir %{_installdir}/ie7/drive_c/windows
-%attr(755,root,root) %{_installdir}/ie7/drive_c/windows/*.exe
-%{_installdir}/ie7/drive_c/windows/*.ini
-%dir %{_installdir}/ie7/drive_c/windows/command
-%attr(755,root,root) %{_installdir}/ie7/drive_c/windows/command/start.exe
-%dir %{_installdir}/ie7/drive_c/windows/fonts
-%{_installdir}/ie7/drive_c/windows/fonts/*.ttf
-%dir %{_installdir}/ie7/drive_c/windows/help
-%{_installdir}/ie7/drive_c/windows/help/*.hlp
-%dir %{_installdir}/ie7/drive_c/windows/inf
-%{_installdir}/ie7/drive_c/windows/inf/*.inf
-%dir %{_installdir}/ie7/drive_c/windows/options
-%dir %{_installdir}/ie7/drive_c/windows/options/cabs
-%{_installdir}/ie7/drive_c/windows/options/cabs/*.dll
-%dir %attr(770,root,ies4linux) %{_installdir}/ie7/drive_c/windows/profiles
-%dir "%{_installdir}/ie7/drive_c/windows/profiles/All Users"
-%dir "%{_installdir}/ie7/drive_c/windows/profiles/All Users/Application Data"
-%dir "%{_installdir}/ie7/drive_c/windows/profiles/All Users/Desktop"
-%dir "%{_installdir}/ie7/drive_c/windows/profiles/All Users/Documents"
-%dir "%{_installdir}/ie7/drive_c/windows/profiles/All Users/Favorites"
-%dir "%{_installdir}/ie7/drive_c/windows/profiles/All Users/Start Menu"
-%dir "%{_installdir}/ie7/drive_c/windows/profiles/All Users/Start Menu/Programs"
-%dir "%{_installdir}/ie7/drive_c/windows/profiles/All Users/Start Menu/Programs/StartUp"
-%dir "%{_installdir}/ie7/drive_c/windows/profiles/All Users/Templates"
-%{_installdir}/ie7/drive_c/windows/system
-%dir %{_installdir}/ie7/drive_c/windows/system32
-%dir %{_installdir}/ie7/drive_c/windows/system32/Macromed
-%dir %{_installdir}/ie7/drive_c/windows/system32/Macromed/Flash
-%{_installdir}/ie7/drive_c/windows/system32/Macromed/Flash/*.ocx
-%attr(755,root,root) %{_installdir}/ie7/drive_c/windows/system32/Macromed/Flash/*.exe
-%dir %{_installdir}/ie7/drive_c/windows/system32/drivers
-%dir %{_installdir}/ie7/drive_c/windows/system32/sfp
-%dir %{_installdir}/ie7/drive_c/windows/system32/sfp/ie
-%{_installdir}/ie7/drive_c/windows/system32/sfp/ie/vgx.cat
-%attr(755,root,root) %{_installdir}/ie7/drive_c/windows/system32/*.exe
-%{_installdir}/ie7/drive_c/windows/system32/*.dll
-%{_installdir}/ie7/drive_c/windows/system32/*.ocx
-%{_installdir}/ie7/drive_c/windows/system32/*.cat
-%{_installdir}/ie7/drive_c/windows/system32/*.msc
-%{_installdir}/ie7/drive_c/windows/system32/*.nls
-%{_installdir}/ie7/drive_c/windows/system32/*.inf
-%{_installdir}/ie7/drive_c/windows/system32/*.vxd
-%{_installdir}/ie7/drive_c/windows/system32/*.txt
-%{_installdir}/ie7/drive_c/windows/system32/*.cnv
-%{_installdir}/ie7/drive_c/windows/system32/*.mof
-%{_installdir}/ie7/drive_c/windows/system32/*.htm
-%{_installdir}/ie7/drive_c/windows/system32/*.acm
-%{_installdir}/ie7/drive_c/windows/system32/*.cpl
-%{_installdir}/ie7/drive_c/windows/system32/*.gif
-%{_installdir}/ie7/drive_c/windows/system32/*.tlb
-%{_installdir}/ie7/drive_c/windows/system32/*.stf
-%{_installdir}/ie7/drive_c/windows/system32/*.bat
-%{_installdir}/ie7/drive_c/windows/system32/*.pdr
-%{_installdir}/ie7/drive_c/windows/system32/*.rat
-%{_installdir}/ie7/drive_c/windows/system32/*.icm
-%{_installdir}/ie7/drive_c/windows/system32/*.wav
-%{_installdir}/ie7/drive_c/windows/system32/*.crl
-%{_installdir}/ie7/drive_c/windows/system32/*.drv
-%dir %{_installdir}/ie7/drive_c/windows/temp
+%if %{with locale_en_US}
+%files ie7-en_US -f ie7-en-US.files
+%endif
+%if %{with locale_pl}
+%files ie7-pl -f ie7-pl.files
+%endif
 %endif
