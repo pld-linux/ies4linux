@@ -1,15 +1,15 @@
 --- ies4linux-2.0beta6/ies4linux	2006-05-27 12:19:55.000000000 +0300
 +++ ies4linux-2.0beta6.patched/ies4linux	2006-05-28 23:48:51.953989071 +0300
-@@ -22,7 +22,7 @@
- INSTALLIE55=0
- INSTALLIE5=0
- INSTALLFLASH=1
--CREATE_ICON=1
-+CREATE_ICON=0
- BASEDIR="$HOME/.ies4linux"
- DOWNLOADDIR="$BASEDIR/downloads"
- BINDIR="$HOME/bin"
-@@ -59,10 +59,9 @@
+@@ -25,7 +25,7 @@
+ INSTALLIE55_DEFAULT=0
+ INSTALLIE5_DEFAULT=0
+ INSTALLFLASH_DEFAULT=1
+-CREATE_ICON_DEFAULT=1
++CREATE_ICON_DEFAULT=0
+ BASEDIR_DEFAULT="$HOME/.ies4linux"
+ BINDIR_DEFAULT="$HOME/bin"
+ WGETFLAGS_DEFAULT="--continue"
+@@ -107,7 +107,7 @@
  [ "$(whoami)" = "root" ] && warning $MSG_WARNING_ROOT
  
  # Asks what user wants to install
@@ -17,18 +17,15 @@
 +#initAndConfigure
  
  # Prepare folders
--DOWNLOADDIR="$BASEDIR/downloads"
- mkdir -p "$BINDIR"
- mkdir -p "$BASEDIR/tmp/"
- rm -rf "$BASEDIR"/tmp/*
+ mkdir -p "$DESTDIR$BINDIR"
 --- ies4linux-2.0beta6/lib/functions.sh	2006-05-27 12:20:21.000000000 +0300
 +++ ies4linux-2.0beta6.patched/lib/functions.sh	2006-05-28 23:48:29.853495632 +0300
 @@ -12,7 +12,7 @@
-                                 Exec "$BINDIR/$1" \
-                                 Icon "$BASEDIR/ies4linux.svg" \
-                                 Name "Internet Explorer $2" \
--                                GenericName "Microsoft Windows Aplication" \
-+                                GenericName "Microsoft Windows Application" \
-                                 Comment "MSIE $2 by IEs4Linux" > IE$2.desktop
-                 fi
-         fi
+ Exec=$BINDIR/$1
+ Icon=$BASEDIR/ies4linux.svg
+ Name=Internet Explorer $2
+-GenericName=Microsoft Windows Aplication
++GenericName=Microsoft Windows Application
+ Comment=MSIE $2 by IEs4Linux
+ Encoding=UTF-8
+ Terminal=false
