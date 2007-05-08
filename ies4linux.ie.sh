@@ -7,9 +7,11 @@
 # See ies4linux's own LICENSE or COPYING file for more information.
 ##############################################################################
 
-IE=`basename "$0"`
-MASTERPREFIX="/usr/share/ies4linux/$IE"
-WINEPREFIX="${HOME}/.ies4linux/$IE"
+IE=`basename "$0" | awk -F - '{ print $1 }'`
+LOCALE=`basename "$0" | sed 's:ie[0-9]*-*::'`
+[ "x$LOCALE" == "x" ] && LOCALE="en-US"
+MASTERPREFIX="/usr/share/ies4linux/$LOCALE/$IE"
+WINEPREFIX="${HOME}/.ies4linux/$IE-$LOCALE"
 
 # If we're not set up, create the user's magic symlink-copy of the master
 # installation.
