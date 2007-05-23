@@ -1,6 +1,5 @@
 #
 # TODO
-# - wants (ie6 at least) to download gecko installer, but still fails
 # - sources downloaded via install script as NoSourceXX
 # - move profiles to $HOME directory
 # - License tag specifies package license? then it should not be GPL
@@ -231,7 +230,7 @@ Requires(pre):	/bin/id
 Requires(pre):	/usr/sbin/groupadd
 Requires(pre):	/usr/sbin/useradd
 #Requires:	dcom98
-Requires:	wine
+Requires:	wine >= 1:0.9.37
 #Requires:	wine-programs
 ExclusiveArch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
