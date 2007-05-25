@@ -132,12 +132,12 @@
 %endif
 
 %define loc_cn	""
-%if %{with locale_zh_cn}
+%if %{with locale_zh_CN}
 %define loc_cn	cn
 %endif
 
 %define loc_tw	""
-%if %{with locale_zh_tw}
+%if %{with locale_zh_TW}
 %define loc_tw	tw
 %endif
 
@@ -797,32 +797,48 @@ fi
 %files ie6-en_US -f ie6-en-US.files
 %endif
 
-%if %{with locale_pt_BR}
-%files ie6-pt_BR -f ie6-pt-BR.files
+%if %{with locale_ar}
+%files ie6-ar -f ie6-ar.files
+%endif
+
+%if %{with locale_cs}
+%files ie6-cs -f ie6-cs.files
+%endif
+
+%if %{with locale_da}
+%files ie6-da -f ie6-da.files
 %endif
 
 %if %{with locale_de}
 %files ie6-de -f ie6-de.files
 %endif
 
-%if %{with locale_fr}
-%files ie6-fr -f ie6-fr.files
+%if %{with locale_el}
+%files ie6-el -f ie6-el.files
 %endif
 
 %if %{with locale_es}
 %files ie6-es -f ie6-es.files
 %endif
 
+%if %{with locale_fi}
+%files ie6-fi -f ie6-fi.files
+%endif
+
+%if %{with locale_fr}
+%files ie6-fr -f ie6-fr.files
+%endif
+
+%if %{with locale_he}
+%files ie6-he -f ie6-he.files
+%endif
+
+%if %{with locale_hu}
+%files ie6-hu -f ie6-hu.files
+%endif
+
 %if %{with locale_it}
 %files ie6-it -f ie6-it.files
-%endif
-
-%if %{with locale_nl}
-%files ie6-nl -f ie6-nl.files
-%endif
-
-%if %{with locale_sv}
-%files ie6-sv -f ie6-sv.files
 %endif
 
 %if %{with locale_ja}
@@ -833,60 +849,44 @@ fi
 %files ie6-ko -f ie6-ko.files
 %endif
 
+%if %{with locale_nl}
+%files ie6-nl -f ie6-nl.files
+%endif
+
 %if %{with locale_no}
 %files ie6-no -f ie6-no.files
-%endif
-
-%if %{with locale_da}
-%files ie6-da -f ie6-da.files
-%endif
-
-%if %{with locale_cn}
-%files ie6-cn -f ie6-cn.files
-%endif
-
-%if %{with locale_tw}
-%files ie6-tw -f ie6-tw.files
-%endif
-
-%if %{with locale_fi}
-%files ie6-fi -f ie6-fi.files
 %endif
 
 %if %{with locale_pl}
 %files ie6-pl -f ie6-pl.files
 %endif
 
-%if %{with locale_hu}
-%files ie6-hu -f ie6-hu.files
-%endif
-
-%if %{with locale_ar}
-%files ie6-ar -f ie6-ar.files
-%endif
-
-%if %{with locale_he}
-%files ie6-he -f ie6-he.files
-%endif
-
-%if %{with locale_cs}
-%files ie6-cs -f ie6-cs.files
-%endif
-
 %if %{with locale_pt}
 %files ie6-pt -f ie6-pt.files
+%endif
+
+%if %{with locale_pt_BR}
+%files ie6-pt_BR -f ie6-pt-BR.files
 %endif
 
 %if %{with locale_ru}
 %files ie6-ru -f ie6-ru.files
 %endif
 
-%if %{with locale_el}
-%files ie6-el -f ie6-el.files
+%if %{with locale_sv}
+%files ie6-sv -f ie6-sv.files
 %endif
 
 %if %{with locale_tr}
 %files ie6-tr -f ie6-tr.files
+%endif
+
+%if %{with locale_zh_CN}
+%files ie6-zh_CN -f ie6-cn.files
+%endif
+
+%if %{with locale_zh_TW}
+%files ie6-zh_TW -f ie6-tw.files
 %endif
 
 %if %{with ie7}
