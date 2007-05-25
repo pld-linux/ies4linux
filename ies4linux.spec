@@ -20,55 +20,55 @@
 
 %bcond_with	all_locales	# build for all locales
 %bcond_without	locale_en_US	# build without en_US version
+%bcond_with	locale_ar	# build with ar version
+%bcond_with	locale_cs	# build with cs version
+%bcond_with	locale_da	# build with da version
+%bcond_with	locale_de	# build with de version
+%bcond_with	locale_el	# build with el version
+%bcond_with	locale_es	# build with es version
+%bcond_with	locale_fi	# build with fi version
+%bcond_with	locale_fr	# build with fr version
+%bcond_with	locale_he	# build with he version
+%bcond_with	locale_hu	# build with hu version
+%bcond_with	locale_it	# build with it version
+%bcond_with	locale_ja	# build with ja version
+%bcond_with	locale_ko	# build with ko version
+%bcond_with	locale_nl	# build with nl version
+%bcond_with	locale_no	# build with no version
+%bcond_with	locale_pl	# build with pl version
+%bcond_with	locale_pt	# build with pt version
 %bcond_with	locale_pt_BR	# build with pt_BR version
-%bcond_with	locale_de	# build with DE version
-%bcond_with	locale_fr	# build with FR version
-%bcond_with	locale_es	# build with ES version
-%bcond_with	locale_it	# build with IT version
-%bcond_with	locale_nl	# build with NL version
-%bcond_with	locale_sv	# build with SV version
-%bcond_with	locale_ja	# build with JA version
-%bcond_with	locale_ko	# build with KO version
-%bcond_with	locale_no	# build with NO version
-%bcond_with	locale_da	# build with DA version
-%bcond_with	locale_cn	# build with CN version
-%bcond_with	locale_tw	# build with TW version
-%bcond_with	locale_fi	# build with FI version
-%bcond_with	locale_pl	# build with PL version
-%bcond_with	locale_hu	# build with HU version
-%bcond_with	locale_ar	# build with AR version
-%bcond_with	locale_he	# build with HE version
-%bcond_with	locale_cs	# build with CS version
-%bcond_with	locale_pt	# build with PT version
-%bcond_with	locale_ru	# build with RU version
-%bcond_with	locale_el	# build with EL version
-%bcond_with	locale_tr	# build with TR version
+%bcond_with	locale_ru	# build with ru version
+%bcond_with	locale_sv	# build with sv version
+%bcond_with	locale_tr	# build with tr version
+%bcond_with	locale_zh_CN	# build with zh_CN version
+%bcond_with	locale_zh_TW	# build with zh_TW version
 
 %if %{with all_locales}
-%define with_locale_en_US 1
-%define with_locale_pt_BR 1
+%define with_locale_ar 1
+%define with_locale_cs 1
+%define with_locale_da 1
 %define with_locale_de 1
-%define with_locale_fr 1
+%define with_locale_el 1
+%define with_locale_en_US 1
 %define with_locale_es 1
+%define with_locale_fi 1
+%define with_locale_fr 1
+%define with_locale_he 1
+%define with_locale_hu 1
 %define with_locale_it 1
-%define with_locale_nl 1
-%define with_locale_sv 1
 %define with_locale_ja 1
 %define with_locale_ko 1
+%define with_locale_nl 1
 %define with_locale_no 1
-%define with_locale_da 1
-%define with_locale_cn 1
-%define with_locale_tw 1
-%define with_locale_fi 1
 %define with_locale_pl 1
-%define with_locale_hu 1
-%define with_locale_ar 1
-%define with_locale_he 1
-%define with_locale_cs 1
 %define with_locale_pt 1
+%define with_locale_pt_BR 1
 %define with_locale_ru 1
-%define with_locale_el 1
+%define with_locale_sv 1
 %define with_locale_tr 1
+%define with_locale_zh_CN 1
+%define with_locale_zh_TW 1
 %endif
 
 %define loc_en_US	en-US
@@ -132,12 +132,12 @@
 %endif
 
 %define loc_cn	""
-%if %{with locale_cn}
+%if %{with locale_zh_cn}
 %define loc_cn	cn
 %endif
 
 %define loc_tw	""
-%if %{with locale_tw}
+%if %{with locale_zh_tw}
 %define loc_tw	tw
 %endif
 
@@ -193,7 +193,6 @@
 
 %define locales %{loc_en_US} %{loc_pt_BR} %{loc_de} %{loc_fr} %{loc_es} %{loc_it} %{loc_nl} %{loc_sv} %{loc_ja} %{loc_ko} %{loc_no} %{loc_da} %{loc_cn} %{loc_tw} %{loc_fi} %{loc_pl} %{loc_hu} %{loc_ar} %{loc_he} %{loc_cs} %{loc_pt} %{loc_ru} %{loc_el} %{loc_tr}
 
-
 Summary:	Run IE 7, 6, 5.5 and 5 on Linux with Wine
 Summary(pl.UTF-8):	Uruchamianie IE 7, 6, 5.5 i 5 pod Linuksem przy użyciu Wine
 Name:		ies4linux
@@ -243,7 +242,6 @@ running on Linux.
 IEs4Linux to prostszy sposób na uruchamianie Microsoft Internet
 Explorera pod Linuksem.
 
-
 %package ie5-en_US
 Summary:	Internet Explorer 5
 Summary(pl.UTF-8):	Internet Explorer 5
@@ -270,320 +268,319 @@ Internet Explorer 5.5.
 %description ie55-en_US -l pl.UTF-8
 Internet Explorer 5.5.
 
+%package ie6-ar
+Summary:	Internet Explorer 6 Arabic edition
+Summary(pl.UTF-8):	Internet Explorer 6 w wersji arabskiej
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-ar
+Internet Explorer 6 Arabic edition.
+
+%description ie6-ar -l pl.UTF-8
+Internet Explorer 6 w wersji arabskiej.
+
+%package ie6-cs
+Summary:	Internet Explorer 6 Czech edition
+Summary(pl.UTF-8):	Internet Explorer 6 w wersji czeskiej
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-cs
+Internet Explorer 6 Czech edition.
+
+%description ie6-cs -l pl.UTF-8
+Internet Explorer 6 w wersji czeskiej.
+
+%package ie6-da
+Summary:	Internet Explorer 6 Danish edition
+Summary(pl.UTF-8):	Internet Explorer 6 w wersji duńskiej
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-da
+Internet Explorer 6 Danish edition.
+
+%description ie6-da -l pl.UTF-8
+Internet Explorer 6 w wersji duńskiej.
+
+%package ie6-de
+Summary:	Internet Explorer 6 German edition
+Summary(pl.UTF-8):	Internet Explorer 6 w wersji niemieckiej
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-de
+Internet Explorer 6 German edition.
+
+%description ie6-de -l pl.UTF-8
+Internet Explorer 6 w wersji niemieckiej.
+
+%package ie6-el
+Summary:	Internet Explorer 6 Greek edition
+Summary(pl.UTF-8):	Internet Explorer 6 w wersji greckiej
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-el
+Internet Explorer 6 Greek edition.
+
+%description ie6-el -l pl.UTF-8
+Internet Explorer 6 w wersji greckiej.
+
 %package ie6-en_US
-Summary:	Internet Explorer 6
-Summary(pl.UTF-8):	Internet Explorer 6
+Summary:	Internet Explorer 6 US English edition
+Summary(pl.UTF-8):	Internet Explorer 6 w wersji angielskiej (USA)
 Group:		X11/Applications/Networking
 Requires:	ies4linux = %{version}-%{release}
 Obsoletes:	ies4linux-ie55
 
 %description ie6-en_US
-Internet Explorer 6.
+Internet Explorer 6 US English edition.
 
 %description ie6-en_US -l pl.UTF-8
-Internet Explorer 6.
+Internet Explorer 6 w wersji angielskiej (USA).
+
+%package ie6-es
+Summary:	Internet Explorer 6 Spanish edition
+Summary(pl.UTF-8):	Internet Explorer 6 w wersji hiszpańskiej
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-es
+Internet Explorer 6 Spanish edition.
+
+%description ie6-es -l pl.UTF-8
+Internet Explorer 6 w wersji hiszpańskiej.
+
+%package ie6-fi
+Summary:	Internet Explorer 6 Finnish edition
+Summary(pl.UTF-8):	Internet Explorer 6 w wersji fińskiej
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-fi
+Internet Explorer 6 Finnish edition.
+
+%description ie6-fi -l pl.UTF-8
+Internet Explorer 6 w wersji fińskiej.
+
+%package ie6-fr
+Summary:	Internet Explorer 6 French edition
+Summary(pl.UTF-8):	Internet Explorer 6 w wersji francuskiej
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-fr
+Internet Explorer 6 French edition.
+
+%description ie6-fr -l pl.UTF-8
+Internet Explorer 6 w wersji francuskiej.
+
+%package ie6-he
+Summary:	Internet Explorer 6 Hebrew edition
+Summary(pl.UTF-8):	Internet Explorer 6 w wersji hebrajskiej
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-he
+Internet Explorer 6 Hebrew edition.
+
+%description ie6-he -l pl.UTF-8
+Internet Explorer 6 w wersji hebrajskiej.
+
+%package ie6-hu
+Summary:	Internet Explorer 6 Hungarian edition
+Summary(pl.UTF-8):	Internet Explorer 6 w wersji węgierskiej
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-hu
+Internet Explorer 6 Hungarian edition.
+
+%description ie6-hu -l pl.UTF-8
+Internet Explorer 6 w wersji węgierskiej.
+
+%package ie6-it
+Summary:	Internet Explorer 6 Italian edition
+Summary(pl.UTF-8):	Internet Explorer 6 w wersji włoskiej
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-it
+Internet Explorer 6 Italian edition.
+
+%description ie6-it -l pl.UTF-8
+Internet Explorer 6 w wersji włoskiej.
+
+%package ie6-ja
+Summary:	Internet Explorer 6 Japanese edition
+Summary(pl.UTF-8):	Internet Explorer 6 w wersji japońskiej
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-ja
+Internet Explorer 6 Japanese edition.
+
+%description ie6-ja -l pl.UTF-8
+Internet Explorer 6 w wersji japońskiej.
+
+%package ie6-ko
+Summary:	Internet Explorer 6 Korean edition
+Summary(pl.UTF-8):	Internet Explorer 6 w wersji koreańskiej
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-ko
+Internet Explorer 6 Korean edition.
+
+%description ie6-ko -l pl.UTF-8
+Internet Explorer 6 w wersji koreańskiej.
+
+%package ie6-nl
+Summary:	Internet Explorer 6 Dutch edition
+Summary(pl.UTF-8):	Internet Explorer 6 w wersji holenderskiej
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-nl
+Internet Explorer 6 Dutch edition.
+
+%description ie6-nl -l pl.UTF-8
+Internet Explorer 6 w wersji holenderskiej.
+
+%package ie6-no
+Summary:	Internet Explorer 6 Norwegian edition
+Summary(pl.UTF-8):	Internet Explorer 6 w wersji norweskiej
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-no
+Internet Explorer 6 Norwegian edition.
+
+%description ie6-no -l pl.UTF-8
+Internet Explorer 6 w wersji norweskiej.
+
+%package ie6-pl
+Summary:	Internet Explorer 6 Polish edition
+Summary(pl.UTF-8):	Internet Explorer 6 w wersji polskiej
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-pl
+Internet Explorer 6 Polish edition.
+
+%description ie6-pl -l pl.UTF-8
+Internet Explorer 6 w wersji polskiej.
+
+%package ie6-pt
+Summary:	Internet Explorer 6 Portuguese edition
+Summary(pl.UTF-8):	Internet Explorer 6 w wersji portugalskiej
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-pt
+Internet Explorer 6 Portuguese edition.
+
+%description ie6-pt -l pl.UTF-8
+Internet Explorer 6 w wersji portugalskiej.
+
+%package ie6-pt_BR
+Summary:	Internet Explorer 6 Brazilian Portuguese edition
+Summary(pl.UTF-8):	Internet Explorer 6 w wersji portugalskiej (dla Brazylii)
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-pt_BR
+Internet Explorer 6 Brazilian Portuguese edition.
+
+%description ie6-pt_BR -l pl.UTF-8
+Internet Explorer 6 w wersji portugalskiej (dla Brazylii).
+
+%package ie6-ru
+Summary:	Internet Explorer 6 Russian edition
+Summary(pl.UTF-8):	Internet Explorer 6 w wersji rosyjskiej
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-ru
+Internet Explorer 6 Russian edition.
+
+%description ie6-ru -l pl.UTF-8
+Internet Explorer 6 w wersji rosyjskiej.
+
+%package ie6-sv
+Summary:	Internet Explorer 6 Swedish edition
+Summary(pl.UTF-8):	Internet Explorer 6 w wersji szwedzkiej
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-sv
+Internet Explorer 6 Swedish edition.
+
+%description ie6-sv -l pl.UTF-8
+Internet Explorer 6 w wersji szwedzkiej.
+
+%package ie6-tr
+Summary:	Internet Explorer 6 Turkish edition
+Summary(pl.UTF-8):	Internet Explorer 6 w wersji tureckiej
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-tr
+Internet Explorer 6 Turkish edition.
+
+%description ie6-tr -l pl.UTF-8
+Internet Explorer 6 w wersji tureckiej.
+
+%package ie6-zh_CN
+Summary:	Internet Explorer 6 Chinese (China) edition
+Summary(pl.UTF-8):	Internet Explorer 6 w wersji chińskiej (dla Chin)
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-zh_CN
+Internet Explorer 6 Chinese (China) edition.
+
+%description ie6-zh_CN -l pl.UTF-8
+Internet Explorer 6 w wersji chińskiej (dla Chin).
+
+%package ie6-zh_TW
+Summary:	Internet Explorer 6 Chinese (Taiwan) edition
+Summary(pl.UTF-8):	Internet Explorer 6 w wersji chińskiej (dla Tajwanu)
+Group:		X11/Applications/Networking
+Requires:	ies4linux = %{version}-%{release}
+
+%description ie6-zh_TW
+Internet Explorer 6 Chinese (Taiwan) edition.
+
+%description ie6-zh_TW -l pl.UTF-8
+Internet Explorer 6 w wersji chińskiej (dla Tajwanu).
 
 %package ie7-en_US
-Summary:	Internet Explorer 7
-Summary(pl.UTF-8):	Internet Explorer 7
+Summary:	Internet Explorer 7 US English edition
+Summary(pl.UTF-8):	Internet Explorer 7 w wersji angielskiej (USA)
 Group:		X11/Applications/Networking
 Requires:	ies4linux = %{version}-%{release}
 Obsoletes:	ies4linux-ie7
 
 %description ie7-en_US
-Internet Explorer 7.
+Internet Explorer 7 US English edition.
 
 %description ie7-en_US -l pl.UTF-8
-Internet Explorer 7.
-
-%package ie6-pt_BR
-Summary:	Internet Explorer 6
-Summary(pl.UTF-8):	Internet Explorer 6
-Group:		X11/Applications/Networking
-Requires:	ies4linux = %{version}-%{release}
-
-%description ie6-pt_BR
-Internet Explorer 6.
-
-%description ie6-pt_BR -l pl.UTF-8
-Internet Explorer 6.
-
-%package ie6-de
-Summary:	Internet Explorer 6
-Summary(pl.UTF-8):	Internet Explorer 6
-Group:		X11/Applications/Networking
-Requires:	ies4linux = %{version}-%{release}
-
-%description ie6-de
-Internet Explorer 6.
-
-%description ie6-de -l pl.UTF-8
-Internet Explorer 6.
-
-%package ie6-fr
-Summary:	Internet Explorer 6
-Summary(pl.UTF-8):	Internet Explorer 6
-Group:		X11/Applications/Networking
-Requires:	ies4linux = %{version}-%{release}
-
-%description ie6-fr
-Internet Explorer 6.
-
-%description ie6-fr -l pl.UTF-8
-Internet Explorer 6.
-
-%package ie6-es
-Summary:	Internet Explorer 6
-Summary(pl.UTF-8):	Internet Explorer 6
-Group:		X11/Applications/Networking
-Requires:	ies4linux = %{version}-%{release}
-
-%description ie6-es
-Internet Explorer 6.
-
-%description ie6-es -l pl.UTF-8
-Internet Explorer 6.
-
-%package ie6-it
-Summary:	Internet Explorer 6
-Summary(pl.UTF-8):	Internet Explorer 6
-Group:		X11/Applications/Networking
-Requires:	ies4linux = %{version}-%{release}
-
-%description ie6-it
-Internet Explorer 6.
-
-%description ie6-it -l pl.UTF-8
-Internet Explorer 6.
-
-%package ie6-nl
-Summary:	Internet Explorer 6
-Summary(pl.UTF-8):	Internet Explorer 6
-Group:		X11/Applications/Networking
-Requires:	ies4linux = %{version}-%{release}
-
-%description ie6-nl
-Internet Explorer 6.
-
-%description ie6-nl -l pl.UTF-8
-Internet Explorer 6.
-
-%package ie6-sv
-Summary:	Internet Explorer 6
-Summary(pl.UTF-8):	Internet Explorer 6
-Group:		X11/Applications/Networking
-Requires:	ies4linux = %{version}-%{release}
-
-%description ie6-sv
-Internet Explorer 6.
-
-%description ie6-sv -l pl.UTF-8
-Internet Explorer 6.
-
-%package ie6-ja
-Summary:	Internet Explorer 6
-Summary(pl.UTF-8):	Internet Explorer 6
-Group:		X11/Applications/Networking
-Requires:	ies4linux = %{version}-%{release}
-
-%description ie6-ja
-Internet Explorer 6.
-
-%description ie6-ja -l pl.UTF-8
-Internet Explorer 6.
-
-%package ie6-ko
-Summary:	Internet Explorer 6
-Summary(pl.UTF-8):	Internet Explorer 6
-Group:		X11/Applications/Networking
-Requires:	ies4linux = %{version}-%{release}
-
-%description ie6-ko
-Internet Explorer 6.
-
-%description ie6-ko -l pl.UTF-8
-Internet Explorer 6.
-
-%package ie6-no
-Summary:	Internet Explorer 6
-Summary(pl.UTF-8):	Internet Explorer 6
-Group:		X11/Applications/Networking
-Requires:	ies4linux = %{version}-%{release}
-
-%description ie6-no
-Internet Explorer 6.
-
-%description ie6-no -l pl.UTF-8
-Internet Explorer 6.
-
-%package ie6-da
-Summary:	Internet Explorer 6
-Summary(pl.UTF-8):	Internet Explorer 6
-Group:		X11/Applications/Networking
-Requires:	ies4linux = %{version}-%{release}
-
-%description ie6-da
-Internet Explorer 6.
-
-%description ie6-da -l pl.UTF-8
-Internet Explorer 6.
-
-%package ie6-cn
-Summary:	Internet Explorer 6
-Summary(pl.UTF-8):	Internet Explorer 6
-Group:		X11/Applications/Networking
-Requires:	ies4linux = %{version}-%{release}
-
-%description ie6-cn
-Internet Explorer 6.
-
-%description ie6-cn -l pl.UTF-8
-Internet Explorer 6.
-
-%package ie6-tw
-Summary:	Internet Explorer 6
-Summary(pl.UTF-8):	Internet Explorer 6
-Group:		X11/Applications/Networking
-Requires:	ies4linux = %{version}-%{release}
-
-%description ie6-tw
-Internet Explorer 6.
-
-%description ie6-tw -l pl.UTF-8
-Internet Explorer 6.
-
-%package ie6-fi
-Summary:	Internet Explorer 6
-Summary(pl.UTF-8):	Internet Explorer 6
-Group:		X11/Applications/Networking
-Requires:	ies4linux = %{version}-%{release}
-
-%description ie6-fi
-Internet Explorer 6.
-
-%description ie6-fi -l pl.UTF-8
-Internet Explorer 6.
-
-%package ie6-pl
-Summary:	Internet Explorer 6
-Summary(pl.UTF-8):	Internet Explorer 6
-Group:		X11/Applications/Networking
-Requires:	ies4linux = %{version}-%{release}
-
-%description ie6-pl
-Internet Explorer 6.
-
-%description ie6-pl -l pl.UTF-8
-Internet Explorer 6.
+Internet Explorer 7 w wersji angielskiej (USA).
 
 %package ie7-pl
-Summary:	Internet Explorer 7
-Summary(pl.UTF-8):	Internet Explorer 7
+Summary:	Internet Explorer 7 Polish edition
+Summary(pl.UTF-8):	Internet Explorer 7 w wersji polskiej
 Group:		X11/Applications/Networking
 Requires:	ies4linux = %{version}-%{release}
 
 %description ie7-pl
-Internet Explorer 7.
+Internet Explorer 7 Polish edition.
 
 %description ie7-pl -l pl.UTF-8
-Internet Explorer 7.
-
-%package ie6-hu
-Summary:	Internet Explorer 6
-Summary(pl.UTF-8):	Internet Explorer 6
-Group:		X11/Applications/Networking
-Requires:	ies4linux = %{version}-%{release}
-
-%description ie6-hu
-Internet Explorer 6.
-
-%description ie6-hu -l pl.UTF-8
-Internet Explorer 6.
-
-%package ie6-ar
-Summary:	Internet Explorer 6
-Summary(pl.UTF-8):	Internet Explorer 6
-Group:		X11/Applications/Networking
-Requires:	ies4linux = %{version}-%{release}
-
-%description ie6-ar
-Internet Explorer 6.
-
-%description ie6-ar -l pl.UTF-8
-Internet Explorer 6.
-
-%package ie6-he
-Summary:	Internet Explorer 6
-Summary(pl.UTF-8):	Internet Explorer 6
-Group:		X11/Applications/Networking
-Requires:	ies4linux = %{version}-%{release}
-
-%description ie6-he
-Internet Explorer 6.
-
-%description ie6-he -l pl.UTF-8
-Internet Explorer 6.
-
-%package ie6-cs
-Summary:	Internet Explorer 6
-Summary(pl.UTF-8):	Internet Explorer 6
-Group:		X11/Applications/Networking
-Requires:	ies4linux = %{version}-%{release}
-
-%description ie6-cs
-Internet Explorer 6.
-
-%description ie6-cs -l pl.UTF-8
-Internet Explorer 6.
-
-%package ie6-pt
-Summary:	Internet Explorer 6
-Summary(pl.UTF-8):	Internet Explorer 6
-Group:		X11/Applications/Networking
-Requires:	ies4linux = %{version}-%{release}
-
-%description ie6-pt
-Internet Explorer 6.
-
-%description ie6-pt -l pl.UTF-8
-Internet Explorer 6.
-
-%package ie6-ru
-Summary:	Internet Explorer 6
-Summary(pl.UTF-8):	Internet Explorer 6
-Group:		X11/Applications/Networking
-Requires:	ies4linux = %{version}-%{release}
-
-%description ie6-ru
-Internet Explorer 6.
-
-%description ie6-ru -l pl.UTF-8
-Internet Explorer 6.
-
-%package ie6-el
-Summary:	Internet Explorer 6
-Summary(pl.UTF-8):	Internet Explorer 6
-Group:		X11/Applications/Networking
-Requires:	ies4linux = %{version}-%{release}
-
-%description ie6-el
-Internet Explorer 6.
-
-%description ie6-el -l pl.UTF-8
-Internet Explorer 6.
-
-%package ie6-tr
-Summary:	Internet Explorer 6
-Summary(pl.UTF-8):	Internet Explorer 6
-Group:		X11/Applications/Networking
-Requires:	ies4linux = %{version}-%{release}
-
-%description ie6-tr
-Internet Explorer 6.
-
-%description ie6-tr -l pl.UTF-8
-Internet Explorer 6.
-
+Internet Explorer 7 w wersji polskiej.
 
 %prep
 %setup -q
@@ -756,8 +753,6 @@ for LOCALE in %{locales}; do
 	
 	gen_filelist $LOCALE 6
 done
-
-
 
 %clean
 rm -rf $RPM_BUILD_ROOT
