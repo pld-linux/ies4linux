@@ -16,8 +16,6 @@
 
 %bcond_with	ie7	build ie7 package
 
-%define	_installdir	%{_datadir}/ies4linux
-
 %bcond_with	all_locales	# build for all locales
 %bcond_without	locale_en_US	# build without en_US version
 %bcond_with	locale_ar	# build with ar version
@@ -43,6 +41,49 @@
 %bcond_with	locale_tr	# build with tr version
 %bcond_with	locale_zh_CN	# build with zh_CN version
 %bcond_with	locale_zh_TW	# build with zh_TW version
+
+Summary:	Run IE 7, 6, 5.5 and 5 on Linux with Wine
+Summary(pl.UTF-8):	Uruchamianie IE 7, 6, 5.5 i 5 pod Linuksem przy użyciu Wine
+Name:		ies4linux
+Version:	2.0.5
+Release:	1
+License:	GPL v2
+Group:		X11/Applications/Networking
+Source0:	http://www.tatanka.com.br/ies4linux/downloads/%{name}-%{version}.tar.gz
+# Source0-md5:	a2983360de355d1a407eb20077c39792
+Source1:	%{name}.ie.sh
+%if %{with ie7}
+%if %{with locale_en_US}
+Source2:	http://download.microsoft.com/download/3/8/8/38889DC1-848C-4BF2-8335-86C573AD86D9/IE7-WindowsXP-x86-enu.exe
+NoSource:	2
+%endif
+Source3:	normaliz.dll
+NoSource:	3
+Source4:	inetcplc.dll
+NoSource:	4
+%if %{with locale_pl}
+Source5:	http://download.microsoft.com/download/6/a/0/6a01b4fa-66e5-4447-8f36-9330a8725ecd/IE7-WindowsXP-x86-plk.exe
+NoSource:	5
+%endif
+%endif
+Patch0:		%{name}-destdir.patch
+Patch1:		%{name}.patch
+URL:		http://www.tatanka.com.br/ies4linux/page/Main_Page
+#BuildRequires:	bash
+BuildRequires:	cabextract
+BuildRequires:	wine
+Requires(postun):	/usr/sbin/groupdel
+Requires(postun):	/usr/sbin/userdel
+Requires(pre):	/bin/id
+Requires(pre):	/usr/sbin/groupadd
+Requires(pre):	/usr/sbin/useradd
+#Requires:	dcom98
+Requires:	wine >= 1:0.9.37
+#Requires:	wine-programs
+ExclusiveArch:	%{ix86}
+BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define	_installdir	%{_datadir}/ies4linux
 
 %if %{with all_locales}
 %define with_locale_ar 1
@@ -192,47 +233,6 @@
 %endif
 
 %define locales %{loc_en_US} %{loc_pt_BR} %{loc_de} %{loc_fr} %{loc_es} %{loc_it} %{loc_nl} %{loc_sv} %{loc_ja} %{loc_ko} %{loc_no} %{loc_da} %{loc_cn} %{loc_tw} %{loc_fi} %{loc_pl} %{loc_hu} %{loc_ar} %{loc_he} %{loc_cs} %{loc_pt} %{loc_ru} %{loc_el} %{loc_tr}
-
-Summary:	Run IE 7, 6, 5.5 and 5 on Linux with Wine
-Summary(pl.UTF-8):	Uruchamianie IE 7, 6, 5.5 i 5 pod Linuksem przy użyciu Wine
-Name:		ies4linux
-Version:	2.0.5
-Release:	1
-License:	GPL v2
-Group:		X11/Applications/Networking
-Source0:	http://www.tatanka.com.br/ies4linux/downloads/%{name}-%{version}.tar.gz
-# Source0-md5:	a2983360de355d1a407eb20077c39792
-Source1:	%{name}.ie.sh
-%if %{with ie7}
-%if %{with locale_en_US}
-Source2:	http://download.microsoft.com/download/3/8/8/38889DC1-848C-4BF2-8335-86C573AD86D9/IE7-WindowsXP-x86-enu.exe
-NoSource:	2
-%endif
-Source3:	normaliz.dll
-NoSource:	3
-Source4:	inetcplc.dll
-NoSource:	4
-%if %{with locale_pl}
-Source5:	http://download.microsoft.com/download/6/a/0/6a01b4fa-66e5-4447-8f36-9330a8725ecd/IE7-WindowsXP-x86-plk.exe
-NoSource:	5
-%endif
-%endif
-Patch0:		%{name}-destdir.patch
-Patch1:		%{name}.patch
-URL:		http://www.tatanka.com.br/ies4linux/page/Main_Page
-#BuildRequires:	bash
-BuildRequires:	cabextract
-BuildRequires:	wine
-Requires(postun):	/usr/sbin/groupdel
-Requires(postun):	/usr/sbin/userdel
-Requires(pre):	/bin/id
-Requires(pre):	/usr/sbin/groupadd
-Requires(pre):	/usr/sbin/useradd
-#Requires:	dcom98
-Requires:	wine >= 1:0.9.37
-#Requires:	wine-programs
-ExclusiveArch:	%{ix86}
-BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
 IEs4Linux is the simpler way to have Microsoft Internet Explorer
