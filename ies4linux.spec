@@ -219,10 +219,10 @@ NoSource:	5
 %endif
 Patch0:		%{name}-destdir.patch
 Patch1:		%{name}.patch
-URL:		http://www.tatanka.com.br/ies4linux/index-en.html
+URL:		http://www.tatanka.com.br/ies4linux/page/Main_Page
+#BuildRequires:	bash
 BuildRequires:	cabextract
 BuildRequires:	wine
-#BuildRequires:	bash
 Requires(postun):	/usr/sbin/groupdel
 Requires(postun):	/usr/sbin/userdel
 Requires(pre):	/bin/id
@@ -675,7 +675,7 @@ gen_filelist()
 	echo "%defattr(644,root,root,755)" > $LIST
 
 	find $RPM_BUILD_ROOT%{_installdir}/$LOCALE/ie$VERSION -exec ./add_file_to_list $LOCALE $VERSION '{}' ';'
-	
+
 	echo "%%attr(755,root,root) %{_bindir}/ie$VERSION-$LOCALE" >> $LIST
 	[ "$LOCALE" = "en-US" ] && echo "%%attr(755,root,root) %{_bindir}/ie$VERSION" >> $LIST
 	echo "%{_desktopdir}/ie$VERSION-$LOCALE.desktop" >> $LIST
@@ -717,7 +717,7 @@ for LOCALE in %{locales}; do
 	ln -sf ies4linux $RPM_BUILD_ROOT%{_bindir}/ie6-$LOCALE
 	gen_desktopfile $LOCALE 6.0
 	ln -sf %{_installdir}/profiles $RPM_BUILD_ROOT%{_installdir}/$LOCALE/ie6/drive_c/windows/profiles
-	
+
 	if [ "$LOCALE" = "en-US" ]; then
 		ln -sf ies4linux $RPM_BUILD_ROOT%{_bindir}/ie5
 		ln -sf ies4linux $RPM_BUILD_ROOT%{_bindir}/ie5-en-US
@@ -746,11 +746,11 @@ for LOCALE in %{locales}; do
 		cat $RPM_BUILD_ROOT%{_installdir}/$LOCALE/ie6/user.reg | \
 			sed 's:"Version"="win98":"Version"="win98"\n\n[Software\\Wine\\AppDefaults\\iexplore.exe] 1161336541\n"Version"="winxp"\n:' \
 			> $RPM_BUILD_ROOT%{_installdir}/$LOCALE/ie7/user.reg
-		
+
 		gen_filelist $LOCALE 7
 	fi
 	%endif
-	
+
 	gen_filelist $LOCALE 6
 done
 
@@ -793,107 +793,135 @@ fi
 
 %if %{with locale_en_US}
 %files ie5-en_US -f ie5-en-US.files
+%defattr(644,root,root,755)
 %files ie55-en_US -f ie55-en-US.files
+%defattr(644,root,root,755)
 %files ie6-en_US -f ie6-en-US.files
+%defattr(644,root,root,755)
 %endif
 
 %if %{with locale_ar}
 %files ie6-ar -f ie6-ar.files
+%defattr(644,root,root,755)
 %endif
 
 %if %{with locale_cs}
 %files ie6-cs -f ie6-cs.files
+%defattr(644,root,root,755)
 %endif
 
 %if %{with locale_da}
 %files ie6-da -f ie6-da.files
+%defattr(644,root,root,755)
 %endif
 
 %if %{with locale_de}
 %files ie6-de -f ie6-de.files
+%defattr(644,root,root,755)
 %endif
 
 %if %{with locale_el}
 %files ie6-el -f ie6-el.files
+%defattr(644,root,root,755)
 %endif
 
 %if %{with locale_es}
 %files ie6-es -f ie6-es.files
+%defattr(644,root,root,755)
 %endif
 
 %if %{with locale_fi}
 %files ie6-fi -f ie6-fi.files
+%defattr(644,root,root,755)
 %endif
 
 %if %{with locale_fr}
 %files ie6-fr -f ie6-fr.files
+%defattr(644,root,root,755)
 %endif
 
 %if %{with locale_he}
 %files ie6-he -f ie6-he.files
+%defattr(644,root,root,755)
 %endif
 
 %if %{with locale_hu}
 %files ie6-hu -f ie6-hu.files
+%defattr(644,root,root,755)
 %endif
 
 %if %{with locale_it}
 %files ie6-it -f ie6-it.files
+%defattr(644,root,root,755)
 %endif
 
 %if %{with locale_ja}
 %files ie6-ja -f ie6-ja.files
+%defattr(644,root,root,755)
 %endif
 
 %if %{with locale_ko}
 %files ie6-ko -f ie6-ko.files
+%defattr(644,root,root,755)
 %endif
 
 %if %{with locale_nl}
 %files ie6-nl -f ie6-nl.files
+%defattr(644,root,root,755)
 %endif
 
 %if %{with locale_no}
 %files ie6-no -f ie6-no.files
+%defattr(644,root,root,755)
 %endif
 
 %if %{with locale_pl}
 %files ie6-pl -f ie6-pl.files
+%defattr(644,root,root,755)
 %endif
 
 %if %{with locale_pt}
 %files ie6-pt -f ie6-pt.files
+%defattr(644,root,root,755)
 %endif
 
 %if %{with locale_pt_BR}
 %files ie6-pt_BR -f ie6-pt-BR.files
+%defattr(644,root,root,755)
 %endif
 
 %if %{with locale_ru}
 %files ie6-ru -f ie6-ru.files
+%defattr(644,root,root,755)
 %endif
 
 %if %{with locale_sv}
 %files ie6-sv -f ie6-sv.files
+%defattr(644,root,root,755)
 %endif
 
 %if %{with locale_tr}
 %files ie6-tr -f ie6-tr.files
+%defattr(644,root,root,755)
 %endif
 
 %if %{with locale_zh_CN}
 %files ie6-zh_CN -f ie6-cn.files
+%defattr(644,root,root,755)
 %endif
 
 %if %{with locale_zh_TW}
 %files ie6-zh_TW -f ie6-tw.files
+%defattr(644,root,root,755)
 %endif
 
 %if %{with ie7}
 %if %{with locale_en_US}
 %files ie7-en_US -f ie7-en-US.files
+%defattr(644,root,root,755)
 %endif
 %if %{with locale_pl}
 %files ie7-pl -f ie7-pl.files
+%defattr(644,root,root,755)
 %endif
 %endif
