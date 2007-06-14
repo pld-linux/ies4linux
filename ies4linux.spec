@@ -1,5 +1,8 @@
 #
 # TODO
+# - few install errors (ignored):
+#   ln: creating symbolic link `/usr/bin/ie55': Permission denied
+#   ln: creating symbolic link `/usr/bin/ie5': Permission denied
 # - sources downloaded via install script as NoSourceXX
 # - move profiles to $HOME directory
 # - License tag specifies package license? then it should not be GPL
