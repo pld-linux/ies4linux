@@ -49,7 +49,7 @@ Summary:	Run IE 7, 6, 5.5 and 5 on Linux with Wine
 Summary(pl.UTF-8):	Uruchamianie IE 7, 6, 5.5 i 5 pod Linuksem przy użyciu Wine
 Name:		ies4linux
 Version:	2.0.5
-Release:	1
+Release:	2
 License:	GPL v2
 Group:		X11/Applications/Networking
 Source0:	http://www.tatanka.com.br/ies4linux/downloads/%{name}-%{version}.tar.gz
@@ -263,7 +263,7 @@ Summary:	Internet Explorer 5.5
 Summary(pl.UTF-8):	Internet Explorer 5.5
 Group:		X11/Applications/Networking
 Requires:	ies4linux = %{version}-%{release}
-Obsoletes:	ies4linux-ie5
+Obsoletes:	ies4linux-ie55
 
 %description ie55-en_US
 Internet Explorer 5.5.
@@ -336,7 +336,7 @@ Summary:	Internet Explorer 6 US English edition
 Summary(pl.UTF-8):	Internet Explorer 6 w wersji angielskiej (USA)
 Group:		X11/Applications/Networking
 Requires:	ies4linux = %{version}-%{release}
-Obsoletes:	ies4linux-ie55
+Obsoletes:	ies4linux-ie6
 
 %description ie6-en_US
 Internet Explorer 6 US English edition.
