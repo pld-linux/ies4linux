@@ -74,6 +74,7 @@ Patch1:		%{name}.patch
 URL:		http://www.tatanka.com.br/ies4linux/page/Main_Page
 #BuildRequires:	bash
 BuildRequires:	cabextract
+BuildRequires:	unzip
 BuildRequires:	wine
 Requires(postun):	/usr/sbin/groupdel
 Requires(postun):	/usr/sbin/userdel
