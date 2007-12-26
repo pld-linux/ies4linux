@@ -9,5 +9,4 @@ Type=Application
 Exec=ie6
 Icon=/usr/share/ies4linux/ies4linux.svg
 Categories=Network;WebBrowser;
-Encoding=UTF-8
 # vi: encoding=utf-8
