@@ -87,7 +87,8 @@ Requires:	wine >= 1:0.9.37
 ExclusiveArch:	%{ix86}
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
-%define	_installdir	%{_datadir}/ies4linux
+%define		_preserve_env %_preserve_env_base TERM
+%define		_installdir	%{_datadir}/ies4linux
 
 %if %{with all_locales}
 %define with_locale_ar 1
