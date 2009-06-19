@@ -615,7 +615,6 @@ cp %{SOURCE3} ie7
 cp %{SOURCE4} ie7
 %endif
 
-
 %install
 rm -rf $RPM_BUILD_ROOT
 install -d $RPM_BUILD_ROOT{%{_desktopdir},%{_bindir},%{_pixmapsdir}}
@@ -705,6 +704,13 @@ for LOCALE in %{locales}; do
 
 	if [ ! -d $RPM_BUILD_ROOT%{_installdir}/profiles ]; then
 		install -d $RPM_BUILD_ROOT%{_installdir}/profiles
+
+		# somewhy it is created as $USER not "All Users" with wine-1.1.22
+		USER=$(id -un)
+		if  [ "$RPM_BUILD_ROOT%{_installdir}/$LOCALE/ie6/drive_c/windows/profiles/$USER" ]; then
+			mv "$RPM_BUILD_ROOT%{_installdir}/$LOCALE/ie6/drive_c/windows/profiles/"{$USER,"All Users"}
+		fi
+
 		cp -a "$RPM_BUILD_ROOT%{_installdir}/$LOCALE/ie6/drive_c/windows/profiles/All Users" \
 			$RPM_BUILD_ROOT%{_installdir}/profiles
 	fi
