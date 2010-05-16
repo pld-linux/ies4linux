@@ -17,7 +17,7 @@
 # NOTE: For IE7 you should have normaliz.dll and inetcplc.dll from your
 #	WindowsXP SP2 installation!
 
-%bcond_with	ie7	build ie7 package
+%bcond_with	ie7	# build ie7 package
 
 %bcond_with	all_locales	# build for all locales
 %bcond_without	locale_en_US	# build without en_US version
